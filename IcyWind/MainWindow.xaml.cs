@@ -106,6 +106,7 @@ namespace IcyWind
 
                 if (!chain.Build(root))
                 {
+
                     //TODO: FIGURE OUT HOW THE FUCK TO DO THIS BECAUSE I'M ALMOST ABOUT TO PUT MY OWN CERT IN
                     var data = JsonConvert.SerializeObject(chain.ChainStatus);
                     ShowUnsignedCore();
