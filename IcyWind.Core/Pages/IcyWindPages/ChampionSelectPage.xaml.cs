@@ -83,6 +83,8 @@ namespace IcyWind.Core.Pages.IcyWindPages
 
             _champs = new Champions();
 
+
+
             var readFile = Path.Combine(StaticVars.IcyWindLocation, "IcyWindAssets", "SumSpell", "summoner.json");
             var text = File.ReadAllText(readFile);
             _internalSpellData = JsonConvert.DeserializeObject<SumSpellData>(text);
@@ -91,7 +93,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
             var text2 = File.ReadAllText(readFile2);
             _internalChampData = JsonConvert.DeserializeObject<ChampionData>(text2);
 
-            foreach (var champ in StaticVars.ActiveClient.ChampionList.Where(x => x.Owned || x.FreeToPlay))
+            foreach (var champ in StaticVars.ActiveClient.ChampionList) //.Where(x => x.Owned || x.FreeToPlay)
             {
                 var champConv = _internalChampData.Data.FirstOrDefault(x =>
                     x.Value.Key == champ.ChampionId.ToString());
@@ -169,6 +171,10 @@ namespace IcyWind.Core.Pages.IcyWindPages
                 if (!_hasInit)
                 {
                     _hasInit = true;
+
+                    //TODO: try to change this JWT to unlock all champs
+                    await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCall("teambuilder-draft",
+                        "updateInventoryV1", $"{{\"simplifiedInventoryJwt\":\"{StaticVars.ActiveClient.InvToken}\"}}");
 
                     _roomJid = new Jid(message.ChampionSelectState.TeamChatRoomId + "@champ-select.pvp.net");
                     StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid);
@@ -356,7 +362,11 @@ namespace IcyWind.Core.Pages.IcyWindPages
         private async void LockButton_OnClick(object sender, RoutedEventArgs e)
         {
             _hasLocked = true;
-            LockButton.IsEnabled = false;
+
+            if (!StaticVars.AccountInfo.IsDev)
+            {
+                LockButton.IsEnabled = false;
+            }
 
             var data = await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCallWithResponse("teambuilder-draft",
                 "updateActionV1", $"{{\"actionId\":{_actId},\"championId\":{_champId},\"completed\":true}}");

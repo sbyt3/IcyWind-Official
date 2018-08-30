@@ -39,6 +39,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
         private bool _hasLoaded = false;
         private int _id;
         private Jid _roomJid;
+
         public LobbyPage()
         {
             InitializeComponent();

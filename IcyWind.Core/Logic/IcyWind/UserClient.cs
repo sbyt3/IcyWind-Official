@@ -35,6 +35,8 @@ namespace IcyWind.Core.Logic.IcyWind
     {
         public bool SaveToServer { get; set; }
 
+        public string InvToken { get; set; }
+
         public bool IsAway { get; set; }
 
         public bool HasLoggedOut { get; set; }

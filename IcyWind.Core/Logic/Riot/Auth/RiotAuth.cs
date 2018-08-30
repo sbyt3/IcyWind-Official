@@ -178,6 +178,8 @@ namespace IcyWind.Core.Logic.Riot.Auth
                     userClient.Client.LoginDataPacket.AllSummonerData.Summoner.AcctId.ToString(),
                     "CHAMPION&inventoryTypes=CHAMPION_SKIN");
 
+                userClient.Client.InvToken = simpleInventoryToken;
+
                 var summonerToken =
                     await userClient.Client.RiotProxyCalls.DoLcdsProxyCallWithResponse("summoner",
                         "getMySummoner", "");
@@ -225,7 +227,20 @@ namespace IcyWind.Core.Logic.Riot.Auth
 
                 userClient.Client.CurrentParty = JsonConvert.DeserializeObject<PartyPayload>(partyRtmp.Payload);
 
+                //New restricted queue method
 
+                sendPartyHelper = new BodyHelper
+                {
+                    body = JsonConvert.SerializeObject(party),
+                    url = $"v1/parties/{userClient.Client.CurrentParty.Payload.CurrentParty.PartyId}/eligibility"
+                };
+
+                var partyElg = await userClient.Client.RiotProxyCalls.DoLcdsProxyCallWithResponse("parties.service",
+                    "proxy", JsonConvert.SerializeObject(sendPartyHelper));
+
+
+                //Fucking removed by riot
+                /*
                 //Get restricted Queues
                 var activeQueues = userClient.Client.RiotQueues.Where(x => x.QueueState == "ON");
 
@@ -239,6 +254,7 @@ namespace IcyWind.Core.Logic.Riot.Auth
                     "getQueueRestrictionsForQueuesV2", $"{{\"queueIds\":[{str}],\"queueRestrictionsToExclude\":" +
                                                        "[\"QUEUE_DODGER\",\"LEAVER_BUSTED\",\"LEAVER_BUSTER" +
                                                        $"_TAINTED_WARNING\"],\"summonerIds\":[{userClient.Client.LoginDataPacket.AllSummonerData.Summoner.SumId}]}}");
+                //*/
 
                 if (StaticVars.UserClientList == null)
                 {

@@ -56,10 +56,10 @@ namespace IcyWind
                     else if (File.Exists(
                         Path.Combine(Environment.CurrentDirectory, "Certificates", "IcyWindRootCA.cer")))
                     {
-                        //File.Delete(Path.Combine(Environment.CurrentDirectory, "Certificates", "IcyWindRootCA.cer"));
+                        File.Delete(Path.Combine(Environment.CurrentDirectory, "Certificates", "IcyWindRootCA.cer"));
                     }
                     //Download the RootCert from the CDN
-                    //client.DownloadFile("https://cdn.icywindclient.com/IcyWindRootCA.cer", Path.Combine(Environment.CurrentDirectory, "Certificates", "IcyWindRootCA.cer"));
+                    client.DownloadFile("https://cdn.icywindclient.com/IcyWindRootCA.cer", Path.Combine(Environment.CurrentDirectory, "Certificates", "IcyWindRootCA.cer"));
 
                     //This handles updates and installs. Right now only installs
                     var latest = client.DownloadString("https://cdn.icywindclient.com/latest.txt");
