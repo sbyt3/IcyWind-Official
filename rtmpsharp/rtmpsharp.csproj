@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7AD1DE3F-3F74-4BFD-AD3E-5CB78B397415}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>rtmpsharp</RootNamespace>
+    <AssemblyName>rtmpsharp</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugRel|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugRel\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AsObject.cs" />
+    <Compile Include="Infos\AsObjectInfo.cs" />
+    <Compile Include="Infos\BasicObjectInfo.cs" />
+    <Compile Include="Infos\ClassInfo.cs" />
+    <Compile Include="Infos\ExceptionObjectInfo.cs" />
+    <Compile Include="Infos\ExternalizableObjectInfo.cs" />
+    <Compile Include="IO\AMF3\ArrayCollection.cs" />
+    <Compile Include="IO\AMF3\ByteArray.cs" />
+    <Compile Include="IO\AMF3\DataInput.cs" />
+    <Compile Include="IO\AMF3\DataOutput.cs" />
+    <Compile Include="IO\AMF3\IDataInput.cs" />
+    <Compile Include="IO\AMF3\IDataOutput.cs" />
+    <Compile Include="IO\AMF3\IExternalizable.cs" />
+    <Compile Include="IO\AMF3\ObjectProxy.cs" />
+    <Compile Include="IO\AmfReader.Amf0.cs" />
+    <Compile Include="IO\AmfReader.Amf3.cs" />
+    <Compile Include="IO\AmfReader.Base.cs" />
+    <Compile Include="IO\AmfReader.cs" />
+    <Compile Include="IO\AmfWriter.Amf0.cs" />
+    <Compile Include="IO\AmfWriter.Amf3.cs" />
+    <Compile Include="IO\AmfWriter.Base.cs" />
+    <Compile Include="IO\AmfWriter.cs" />
+    <Compile Include="Messaging\InvocationException.cs" />
+    <Compile Include="Messaging\MessageReceivedEventArgs.cs" />
+    <Compile Include="Messaging\Messages\AcknowledgeMessage.cs" />
+    <Compile Include="Messaging\Messages\AsyncMessage.cs" />
+    <Compile Include="Messaging\Messages\CommandMessage.cs" />
+    <Compile Include="Messaging\Messages\ErrorMessage.cs" />
+    <Compile Include="Messaging\Messages\FlexMessage.cs" />
+    <Compile Include="Messaging\Messages\RemotingMessage.cs" />
+    <Compile Include="NanoTypeConverter.cs" />
+    <Compile Include="Net\ClientDisconnectedException.cs" />
+    <Compile Include="Net\Messages\Abort.cs" />
+    <Compile Include="Net\Messages\Acknowledgement.cs" />
+    <Compile Include="Net\Messages\AudioVideoData.cs" />
+    <Compile Include="Net\Messages\ChunkLength.cs" />
+    <Compile Include="Net\Messages\Invoke.cs" />
+    <Compile Include="Net\Messages\Notify.cs" />
+    <Compile Include="Net\Messages\PeerBandwidth.cs" />
+    <Compile Include="Net\Messages\RtmpMessage.cs" />
+    <Compile Include="Net\Messages\UserControlMessage.cs" />
+    <Compile Include="Net\Messages\WindowAcknowledgementSize.cs" />
+    <Compile Include="Net\PacketContentType.cs" />
+    <Compile Include="Net\RtmpClient.cs" />
+    <Compile Include="Net\RtmpClient.Handshake.cs" />
+    <Compile Include="Net\RtmpClient.Protocol.cs" />
+    <Compile Include="Net\RtmpClient.Reader.cs" />
+    <Compile Include="Net\RtmpClient.Writer.cs" />
+    <Compile Include="Net\StatusAsObject.cs" />
+    <Compile Include="ObjectEncoding.cs" />
+    <Compile Include="ObjectInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RtmpIgnoreAttribute.cs" />
+    <Compile Include="RtmpSharp.cs" />
+    <Compile Include="RtmpSharpAttribute.cs" />
+    <Compile Include="SerializationContext.cs" />
+    <Compile Include="TypeConverters\StringConverter.cs" />
+    <Compile Include="TypeRegistry.cs" />
+    <Compile Include="_Sky\Hina\ByteSpaceComparer.cs" />
+    <Compile Include="_Sky\Hina\Check.cs" />
+    <Compile Include="_Sky\Hina\CheckDebug.cs" />
+    <Compile Include="_Sky\Hina\Collections\EmptyArray.cs" />
+    <Compile Include="_Sky\Hina\Collections\EmptyCollection.cs" />
+    <Compile Include="_Sky\Hina\Collections\Extensions\SpaceExtensions.cs" />
+    <Compile Include="_Sky\Hina\Collections\KeyDictionary.cs" />
+    <Compile Include="_Sky\Hina\Collections\StaticDictionary.cs" />
+    <Compile Include="_Sky\Hina\DateTimeEx.cs" />
+    <Compile Include="_Sky\Hina\EnumerableEx.cs" />
+    <Compile Include="_Sky\Hina\ExceptionalEventArgs.cs" />
+    <Compile Include="_Sky\Hina\Extensions\ArraySegmentExtensions.cs" />
+    <Compile Include="_Sky\Hina\Extensions\DeconstructExtensions.cs" />
+    <Compile Include="_Sky\Hina\Extensions\StringExtensions.cs" />
+    <Compile Include="_Sky\Hina\IO\ByteReader.cs" />
+    <Compile Include="_Sky\Hina\IO\ByteWriter.cs" />
+    <Compile Include="_Sky\Hina\IO\Extensions\MemoryStreamExtensions.cs" />
+    <Compile Include="_Sky\Hina\IO\Extensions\StreamExtensions.cs" />
+    <Compile Include="_Sky\Hina\IO\Zlib\Adler32.cs" />
+    <Compile Include="_Sky\Hina\IO\Zlib\ZlibStream.cs" />
+    <Compile Include="_Sky\Hina\Linq\Buffer.cs" />
+    <Compile Include="_Sky\Hina\Linq\MapFilter.cs" />
+    <Compile Include="_Sky\Hina\Linq\None.cs" />
+    <Compile Include="_Sky\Hina\Linq\ToKeyDictionary.cs" />
+    <Compile Include="_Sky\Hina\Linq\ToQuickDictionary.cs" />
+    <Compile Include="_Sky\Hina\Linq\_HinaLinq.cs" />
+    <Compile Include="_Sky\Hina\MethodFactory.cs" />
+    <Compile Include="_Sky\Hina\Net\SocketEx.cs" />
+    <Compile Include="_Sky\Hina\Net\TcpClientEx.cs" />
+    <Compile Include="_Sky\Hina\Reflection\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="_Sky\Hina\Security\RandomEx.cs" />
+    <Compile Include="_Sky\Hina\Space.cs" />
+    <Compile Include="_Sky\Hina\Threading\AsyncAutoResetEvent.cs" />
+    <Compile Include="_Sky\Hina\Threading\Extensions\TaskExtensions.cs" />
+    <Compile Include="_Sky\Hina\Threading\TaskCallbackManager.cs" />
+    <Compile Include="_Sky\Hina\UnixDateTime.cs" />
+    <Compile Include="_Sky\Konseki\Kon.cs" />
+    <Compile Include="_Sky\Konseki\NameResolver.cs" />
+    <Compile Include="_Sky\Konseki\ObjectDumper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Net\RtmpPacketReader.cs.no" />
+    <None Include="Net\RtmpPacketWriter.cs.no" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

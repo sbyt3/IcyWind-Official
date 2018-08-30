@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- String resource that can be localized -->
+    <system:String x:Key="PipelineRebuildFail">No se pudo reconstruir la pipeline:</system:String>
+    <system:String x:Key="MoreOneCore">Se ha detectado más de un core. Por favor, reinstala IcyWind. IcyWind no se va a ejecutar</system:String>
+    <system:String x:Key="PluginWrongLocation">Aviso, algunos plugins no están instalados en la localización correcta. IcyWind no se va a ejecutar</system:String>
+    <system:String x:Key="Username">Usuario</system:String>
+    <system:String x:Key="Password">Contraseña</system:String>
+</ResourceDictionary>

@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="IcyWind.Core.Pages.IcyWindPages.HomePage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IcyWind.Core.Pages.IcyWindPages"
+             mc:Ignorable="d" 
+             d:DesignHeight="611" d:DesignWidth="1254"  Height="621" Width="1264">
+    <Grid>
+        <Button Content="Useless button on the homepage. Does almost nothing. Press it if you have nothing better to do" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="1244" Height="511"/>
+
+    </Grid>
+</UserControl>

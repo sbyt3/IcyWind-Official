@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="IcyWind.Core.Controls.ChatBoxControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IcyWind.Core.Controls"
+             mc:Ignorable="d" 
+             Height="300" Width="300">
+    <Grid>
+        <Grid Background="#FF547393">
+            <RichTextBox x:Name="ChatHistory" Margin="10,35,10,40"  VerticalAlignment="Stretch" Background="#FFDADADA" IsReadOnly="True" BorderBrush="#FFDADADA">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+            <TextBox x:Name="SendText" HorizontalAlignment="Stretch" Height="30" Margin="10,0,10,10" VerticalAlignment="Bottom" KeyDown="SendText_OnKeyDown"/>
+
+        </Grid>
+
+        <Grid Background="#2c3e50" Height="30" VerticalAlignment="Top">
+            <Label x:Name="PlayerNameLabel" Content="TrapBook" HorizontalAlignment="Left" Margin="2,0,0,0" FontSize="14" FontWeight="Medium" VerticalAlignment="Top" Foreground="#FFD4D4D4"/>
+            <Button x:Name="RemoveButton"  Content="X" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Top" Width="30" Height="30" Background="#1CDDDDDD" Foreground="AliceBlue" BorderBrush="{x:Null}" />
+            <Button x:Name="HideButton" Content="_" HorizontalAlignment="Right" Margin="0,0,30,0" VerticalAlignment="Top" Width="30" Height="30" Background="#19DDDDDD" Foreground="AliceBlue" BorderBrush="{x:Null}" />
+
+        </Grid>
+    </Grid>
+</UserControl>

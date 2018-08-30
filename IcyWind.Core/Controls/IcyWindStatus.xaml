@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="IcyWind.Core.Controls.IcyWindStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IcyWind.Core.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="320">
+    <Grid>
+        <Ellipse x:Name="StatusColour" Fill="Orange" HorizontalAlignment="Left" Height="15" VerticalAlignment="Center" Width="15" Margin="5"/>
+        <TextBox x:Name="StatusText" IsReadOnly="True" HorizontalAlignment="Left" Height="50" Margin="30,0,0,0" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Foreground="AliceBlue" VerticalAlignment="Center" Width="280"/>
+
+    </Grid>
+</UserControl>

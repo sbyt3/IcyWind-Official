@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="IcyWind.Core.Pages.IcyWindPages.PlayPage.LobbyPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IcyWind.Core.Pages.IcyWindPages.PlayPage"
+             mc:Ignorable="d" 
+             d:DesignHeight="611" d:DesignWidth="1254"  Height="621" Width="1264">
+    <Grid>
+        <Label Margin="0,10,266,0" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Invite Friends" FontWeight="SemiBold" FontSize="22" />
+        <Label Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Your team" FontWeight="SemiBold" FontSize="22" />
+        <ListView x:Name="TeamListView" Margin="10,50,420,235" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="White" Background="#66505050" BorderBrush="{x:Null}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+
+        <Button x:Name="CancelGameButton" Width="138" Height="30" Margin="10,0,0,200" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Cancel" Click="CancelGameButton_OnClick" />
+        <Button x:Name="StartGameButton" Width="147" Height="30" Margin="0,0,420,200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Start" Click="StartGameButton_OnClick" />
+
+        <ListView x:Name="InviteListView" Width="395" Margin="0,50,15,305" HorizontalAlignment="Right" VerticalAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="White" Background="#66505050" BorderBrush="{x:Null}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <Button x:Name="InviteButton" Width="395" Height="27" Margin="0,0,15,278"
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Invite" Click="InviteButton_OnClick"/>
+        <CheckBox x:Name="AutoAcceptCheckBox" Width="89" Margin="153,0,0,207" HorizontalAlignment="Left" VerticalAlignment="Bottom" Checked="AutoAcceptCheckBox_OnChecked" Unchecked="AutoAcceptCheckBox_OnUnchecked" IsChecked="True" IsEnabled="False" >
+            <TextBlock Text="AutoAccept" Margin="0,-2,0,0"/>
+        </CheckBox>
+        <RichTextBox x:Name="ChatText" Height="151" Margin="10,0,420,44" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" IsReadOnly="True" Foreground="White" Background="#CC505050" BorderBrush="{x:Null}">
+            <RichTextBox.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0" />
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>
+        <TextBox x:Name="ChatTextBox" Height="29" Margin="10,0,515,10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" TextWrapping="Wrap" />
+        <Button x:Name="ChatButton" Width="90" Height="30" Margin="0,0,420,9" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Send" IsDefault="True" Click="ChatButton_OnClick" />
+        <Rectangle x:Name="PingRectangle" Width="188" Height="25" Margin="0,18,13,0" HorizontalAlignment="Right" VerticalAlignment="Top" Fill="Red" Stroke="Black" />
+        <TextBlock x:Name="PingLabel" Width="186" Height="23" Margin="0,18,15,0" HorizontalAlignment="Right" VerticalAlignment="Top" TextWrapping="Wrap" Text="Pinging is disabbled" Foreground="White" FontSize="16" TextAlignment="Center" RenderTransformOrigin="0.159,-0.961" />
+        <ListView x:Name="FriendsOfFriendsView" Width="395" Height="263" Margin="0,0,15,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Foreground="White" Background="#66505050" BorderBrush="{x:Null}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+        </ListView>
+        <Grid x:Name="DevAndPaidFeature">
+            <Button x:Name="SelectChamp" Width="120" Height="30" Margin="0,0,572,200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="AutoChamp" Click="SelectChamp_OnClick"/>
+            <Button x:Name="InstaCall" Width="103" Height="30" Margin="0,0,697,200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="AutoCall" Click="InstaCall_OnClick" ToolTip="Type into chat then click this button to insta call that text" />
+            <!--This is a dev feature only. Remember to remove it-->
+            <Button x:Name="ChangeMap" Width="115" Height="30" Margin="0,0,805,200" HorizontalAlignment="Right" VerticalAlignment="Bottom" Content="Change Map" Click="ChangeMap_OnClick" ToolTip="Change map" />
+
+        </Grid>
+    </Grid>
+</UserControl>

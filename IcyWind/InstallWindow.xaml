@@ -1,0 +1,48 @@
+﻿<Window x:Class="IcyWind.InstallWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IcyWind"
+        mc:Ignorable="d"
+        Title="IcyWind - Installing" Height="450" Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- you only need bring this resource in if you want to specify the circular style statically -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ProgressBar.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <StackPanel x:Name="TextPanel" Width="300" VerticalAlignment="Bottom" HorizontalAlignment="Center" >
+
+            </StackPanel>
+            <!--UiHack-->
+            <Grid>
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Offset="1" Color="#FF959292"/>
+                        <GradientStop Color="White" Offset="0.599"/>
+                        <GradientStop Offset="0.802"/>
+                        <GradientStop Color="Transparent" Offset="0.911"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+        </Grid>
+        <Grid>
+            <Label x:Name="Speed" Content="IcyWind is now installing. Please wait" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0"/>
+        </Grid>
+
+        <Grid>
+            <Ellipse Fill="#FFD6FFF9" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"/>
+            <Ellipse HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="IcyWindPng.png"  Stretch="Fill"></ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <ProgressBar x:Name="DownloadProgress" Style="{StaticResource MaterialDesignCircularProgressBar}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="105" Width="105" IsIndeterminate="True" Foreground="#FF0699B0"/>
+        </Grid>
+    </Grid>
+</Window>

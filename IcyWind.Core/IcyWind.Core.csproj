@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9206F7DA-7284-4E6C-A50C-30E81E91DEE8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IcyWind.Core</RootNamespace>
+    <AssemblyName>IcyWind.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\IcyWind\bin\Debug\core\AddIns\IcyWind.Core\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugRel|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugRel\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Costura, Version=3.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.3.1.0\lib\net46\Costura.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Buffers, Version=0.4.8.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Buffers.0.4.8\lib\net45\DotNetty.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Codecs, Version=0.4.8.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Codecs.0.4.8\lib\net45\DotNetty.Codecs.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Common, Version=0.4.8.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Common.0.4.8\lib\net45\DotNetty.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Handlers, Version=0.4.8.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Handlers.0.4.8\lib\net45\DotNetty.Handlers.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetty.Transport, Version=0.4.8.0, Culture=neutral, PublicKeyToken=bc13ca065fa06c29, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetty.Transport.0.4.8\lib\net45\DotNetty.Transport.dll</HintPath>
+    </Reference>
+    <Reference Include="Dragablz, Version=0.0.3.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dragablz.0.0.3.203\lib\net45\Dragablz.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.1.3\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.1.1101, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.4.1.1101\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Binder.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.AddIn" />
+    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Console, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Console.4.3.1\lib\net46\System.Console.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive, Version=4.0.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.4.0.0\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.1\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Xml.ReaderWriter.4.3.1\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="websocket-sharp, Version=1.0.4.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocketSharpFork.1.0.4.0\lib\net35\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="YamlDotNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.5.0.1\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <HintPath>..\packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\ChampIcon.xaml.cs">
+      <DependentUpon>ChampIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Champions.xaml.cs">
+      <DependentUpon>Champions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ChatBoxControl.xaml.cs">
+      <DependentUpon>ChatBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EndOfGamePlayer.xaml.cs">
+      <DependentUpon>EndOfGamePlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FadeLabel.cs" />
+    <Compile Include="Controls\IcyWindStatus.xaml.cs">
+      <DependentUpon>IcyWindStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MapView.xaml.cs">
+      <DependentUpon>MapView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PlayerChatControl.xaml.cs">
+      <DependentUpon>PlayerChatControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PlayerItem.xaml.cs">
+      <DependentUpon>PlayerItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SmallChatItem.xaml.cs">
+      <DependentUpon>SmallChatItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TeamControl.xaml.cs">
+      <DependentUpon>TeamControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UserAccount.xaml.cs">
+      <DependentUpon>UserAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Logic\Crypt\AES.cs" />
+    <Compile Include="Logic\Crypt\MD5.cs" />
+    <Compile Include="Logic\Data\LoginSystemData.cs" />
+    <Compile Include="Logic\Data\RegionData.cs" />
+    <Compile Include="Logic\Data\RegionDataHelper.cs" />
+    <Compile Include="Logic\Data\RiotClientData.cs" />
+    <Compile Include="Logic\IcyWind\Accounts\IcyWindRiotAccountInfo.cs" />
+    <Compile Include="Logic\IcyWind\HelperFunctions.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\IcyWindCalls.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\Results\IcyWindGameHistory.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\Results\IcyWindMasteries.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\Results\IcyWindQueue.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\Results\IcyWindPlayerData.cs" />
+    <Compile Include="Logic\IcyWind\ServerWebSocket\Results\IcyWindRunes.cs" />
+    <Compile Include="Logic\IcyWind\StaticVars.cs" />
+    <Compile Include="Logic\IcyWind\UserClient.cs" />
+    <Compile Include="Logic\Riot\Auth\RiotAuthOpenIdConfiguration.cs" />
+    <Compile Include="Logic\Riot\Auth\RiotLcdsRsoLoginCredentials.cs" />
+    <Compile Include="Logic\Riot\Chat\ChatAuth.cs" />
+    <Compile Include="Logic\Riot\Chat\ChatPlayerItem.cs" />
+    <Compile Include="Logic\Riot\Chat\ChatSubjects.cs" />
+    <Compile Include="Logic\Riot\Compression\Deflate.cs" />
+    <Compile Include="Logic\Riot\Compression\GZip.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\account\AccountSummary.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\broadcast\BroadcastNotification.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\catalog\champion\ChampionDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\catalog\champion\ChampionSkinDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\catalog\runes\Rune.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\catalog\runes\RuneType.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\clientfacade\domain\LoginDataPacket.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\client\dynamic\configuration\ClientDynamicConfigurationNotification.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\FeaturedGameInfo.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\GameDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\GameTypeConfigDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\map\GameMapEnabledDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\PlayerChampionSelection.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\PlayerCredentialsDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\game\PlayerParticipant.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\login\AuthenticationCredentials.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\login\LoginFailedException.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\login\Session.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\matchmaking\QueueThrottleDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\messaging\persistence\SimpleDialogMessage.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\serviceproxy\LcdsServiceProxyResponse.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\EndOfGameStats.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\PlayerParticipantStatsSummary.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\RawStatDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\SummaryAggStat.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\SummaryAggStats.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\PlayerStatSummaries.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\statistics\PlayerStatSummary.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\AllPublicSummonerDataDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\AllSummonerData.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\BasePublicSummonerDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\boost\SummonerActiveBoostsDTO.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\RuneSlot.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\spellbook\BookPage.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\spellbook\SlotEntry.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\spellbook\SpellBook.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\Summoner.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\SummonerCatalog.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\SummonerDefaultSpells.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\SummonerGameModeSpells.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\summoner\SummonerLevelAndPoints.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\systemstate\ClientSystemStatesNotification.cs" />
+    <Compile Include="Logic\Riot\com\riotgames\platform\systemstate\ReplaySystemStates.cs" />
+    <Compile Include="Logic\Riot\com\RiotRtmpObject.cs" />
+    <Compile Include="Logic\Riot\Auth\RiotAuth.cs" />
+    <Compile Include="Logic\Riot\LcdsRiotCalls.cs" />
+    <Compile Include="Logic\Riot\Lobby\ChampionData.cs" />
+    <Compile Include="Logic\Riot\Lobby\CreatePartyService.cs" />
+    <Compile Include="Logic\Riot\Lobby\InventoryService.cs" />
+    <Compile Include="Logic\Riot\Lobby\PartyPayload.cs" />
+    <Compile Include="Logic\Riot\Lobby\PartyPhaseMessage.cs" />
+    <Compile Include="Logic\Riot\Lobby\SumSpellData.cs" />
+    <Compile Include="Logic\Riot\QueueConverter.cs" />
+    <Compile Include="Logic\Riot\RiotCalls.cs" />
+    <Compile Include="Logic\Riot\RiotData\PerkHelper.cs" />
+    <Compile Include="Logic\Riot\RiotData\RiotQueue.cs" />
+    <Compile Include="Logic\Riot\RiotData\RunesReforaged.cs" />
+    <Compile Include="Logic\Riot\RiotWebClient.cs" />
+    <Compile Include="Logic\Riot\Rms\RiotMessageService.cs" />
+    <Compile Include="Logic\Riot\Status\GetCurrentStatus.cs" />
+    <Compile Include="Logic\Riot\Update\RiotUpdateHandler.cs" />
+    <Compile Include="Logic\UserInterfaceCore.cs" />
+    <Compile Include="Pages\AccountSelectorPage.xaml.cs">
+      <DependentUpon>AccountSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\ChampionSelectPage.xaml.cs">
+      <DependentUpon>ChampionSelectPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\DevPage.xaml.cs">
+      <DependentUpon>DevPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\EndOfGamePage.xaml.cs">
+      <DependentUpon>EndOfGamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\GamePage.xaml.cs">
+      <DependentUpon>GamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\HomePage.xaml.cs">
+      <DependentUpon>HomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\PlayPage\LobbyPage.xaml.cs">
+      <DependentUpon>LobbyPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\PlayPage\MapSelectionPage.xaml.cs">
+      <DependentUpon>MapSelectionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\ProfilePage.xaml.cs">
+      <DependentUpon>ProfilePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\HolderPage.xaml.cs">
+      <DependentUpon>HolderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\IcyWindPages\PlayPage.xaml.cs">
+      <DependentUpon>PlayPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\ChampIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Champions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ChatBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EndOfGamePlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\IcyWindStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MapView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PlayerChatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PlayerItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SmallChatItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\TeamControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\UserAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AccountSelectorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\ChampionSelectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\DevPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\EndOfGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\GamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\PlayPage\LobbyPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\PlayPage\MapSelectionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\ProfilePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\HolderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\IcyWindPages\PlayPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IcyWind.AddInViews\IcyWind.AddInViews.csproj">
+      <Project>{8dd48c3b-9358-4221-9f1a-1b95652d0682}</Project>
+      <Name>IcyWind.AddInViews</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\IcyWind.Auth\IcyWind.Auth.csproj">
+      <Project>{e4a396dc-c393-4c8e-9fb2-6b25560f689c}</Project>
+      <Name>IcyWind.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IcyWind.Chat\IcyWind.Chat.csproj">
+      <Project>{004c15d4-eb51-4559-90bc-f6876396036a}</Project>
+      <Name>IcyWind.Chat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IcyWind.Languages\IcyWind.Languages.csproj">
+      <Project>{ce9e9d27-df57-4505-837d-7f375bc89cb0}</Project>
+      <Name>IcyWind.Languages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\rtmpsharp\rtmpsharp.csproj">
+      <Project>{7ad1de3f-3f74-4bfd-ad3e-5cb78b397415}</Project>
+      <Name>rtmpsharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IcyWind.AddIn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+    <Content Include="Img\Blue_Essence.png" />
+    <Content Include="Img\map10.png" />
+    <Content Include="Img\map11.png" />
+    <Content Include="Img\map12.png" />
+    <Content Include="Img\map14.png" />
+    <Content Include="Img\map16.png" />
+    <Content Include="Img\map18.png" />
+    <Content Include="Img\map19.png" />
+    <Content Include="Img\map21.png" />
+    <Content Include="Img\map3.png" />
+    <Content Include="Img\map8.png" />
+    <Content Include="Img\noise.png" />
+    <Content Include="Img\Rp.png" />
+    <Content Include="morgana_vs_ahri_3.jpg" />
+    <Content Include="NONE.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.3.1.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.3.1.3\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets'))" />
+  </Target>
+  <Import Project="..\packages\Fody.3.1.3\build\Fody.targets" Condition="Exists('..\packages\Fody.3.1.3\build\Fody.targets')" />
+  <Import Project="..\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.3.1.0\build\Costura.Fody.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\ed_12\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_IcyWind.-1268071514.00" t="ExcludeRecursive" />
+    <e p="C:\Users\ed_12\Documents\Cloud Source Repositories\IcyWind-Project" t="IncludeFlat">
+      <e p="Chat" t="Include" />
+      <e p="IcyWind" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="App.xaml" t="Include" />
+        <e p="App.xaml.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Core" t="Include">
+          <e p="LanguageHelper.cs" t="Include" />
+          <e p="Update" t="Include">
+            <e p="IcyWind" t="Include" />
+            <e p="Riot" t="Include" />
+          </e>
+        </e>
+        <e p="IcyWind.csproj" t="IncludeRecursive" />
+        <e p="IcyWindIcon.ico" t="Include" />
+        <e p="MainWindow.xaml" t="Include" />
+        <e p="MainWindow.xaml.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="Views" t="Include">
+          <e p="UpdatingView.xaml" t="Include" />
+          <e p="UpdatingView.xaml.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.AddInSideAdapter" t="IncludeRecursive">
+        <e p="IcyWind.AddInSideAdapter.csproj" t="IncludeRecursive" />
+        <e p="MainViewToContractAddInSideAdapter.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.AddInViews" t="IncludeRecursive">
+        <e p="IcyWind.AddInViews.csproj" t="IncludeRecursive" />
+        <e p="IMainView.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Auth" t="IncludeRecursive">
+        <e p="AccountManager.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Data" t="Include">
+          <e p="IcyWindAccountInfo.cs" t="Include" />
+          <e p="IcyWindRiotAccountCrypted.cs" t="Include" />
+          <e p="LoginCredentials.cs" t="Include" />
+          <e p="RegisterIcyWindAccount.cs" t="Include" />
+        </e>
+        <e p="IcyWind.Auth.csproj" t="IncludeRecursive" />
+        <e p="IcyWindHelpers.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Chat" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ChatClient.cs" t="Include" />
+        <e p="IcyWind.Chat.csproj" t="IncludeRecursive" />
+        <e p="Jid.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Presence.cs" t="Include" />
+        <e p="PresenceShow.cs" t="Include" />
+        <e p="PresenceType.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Contract" t="IncludeRecursive">
+        <e p="IcyWind.Contract.csproj" t="IncludeRecursive" />
+        <e p="IMainContract.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Core" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="Controls" t="Include">
+          <e p="ChatBoxControl.xaml" t="Include" />
+          <e p="ChatBoxControl.xaml.cs" t="Include" />
+          <e p="FadeLabel.cs" t="Include" />
+          <e p="IcyWindStatus.xaml" t="Include" />
+          <e p="IcyWindStatus.xaml.cs" t="Include" />
+          <e p="MapView.xaml" t="Include" />
+          <e p="MapView.xaml.cs" t="Include" />
+          <e p="PlayerChatControl.xaml" t="Include" />
+          <e p="PlayerChatControl.xaml.cs" t="Include" />
+          <e p="SmallChatItem.xaml" t="Include" />
+          <e p="SmallChatItem.xaml.cs" t="Include" />
+          <e p="UserAccount.xaml" t="Include" />
+          <e p="UserAccount.xaml.cs" t="Include" />
+        </e>
+        <e p="IcyWind.AddIn.cs" t="Include" />
+        <e p="IcyWind.Core.csproj" t="IncludeRecursive" />
+        <e p="Img" t="Include">
+          <e p="Blue_Essence.png" t="Include" />
+          <e p="map10.png" t="Include" />
+          <e p="map11.png" t="Include" />
+          <e p="map12.png" t="Include" />
+          <e p="map14.png" t="Include" />
+          <e p="map16.png" t="Include" />
+          <e p="map18.png" t="Include" />
+          <e p="map19.png" t="Include" />
+          <e p="map21.png" t="Include" />
+          <e p="map3.png" t="Include" />
+          <e p="map8.png" t="Include" />
+          <e p="noise.png" t="Include" />
+          <e p="Rp.png" t="Include" />
+        </e>
+        <e p="Logic" t="Include">
+          <e p="Crypt" t="Include">
+            <e p="AES.cs" t="Include" />
+            <e p="MD5.cs" t="Include" />
+          </e>
+          <e p="Data" t="Include">
+            <e p="LoginSystemData.cs" t="Include" />
+            <e p="RegionData.cs" t="Include" />
+            <e p="RegionDataHelper.cs" t="Include" />
+            <e p="RiotClientData.cs" t="Include" />
+          </e>
+          <e p="IcyWind" t="Include">
+            <e p="Accounts" t="Include">
+              <e p="IcyWindRiotAccountInfo.cs" t="Include" />
+            </e>
+            <e p="HelperFunctions.cs" t="Include" />
+            <e p="ServerWebSocket" t="Include">
+              <e p="IcyWindCalls.cs" t="Include" />
+              <e p="Results" t="Include">
+                <e p="IcyWindGameHistory.cs" t="Include" />
+                <e p="IcyWindMasteries.cs" t="Include" />
+                <e p="IcyWindPlayerData.cs" t="Include" />
+                <e p="IcyWindQueue.cs" t="Include" />
+                <e p="IcyWindRunes.cs" t="Include" />
+              </e>
+            </e>
+            <e p="StaticVars.cs" t="Include" />
+            <e p="UserClient.cs" t="Include" />
+          </e>
+          <e p="Riot" t="Include">
+            <e p="Auth" t="Include">
+              <e p="RiotAuth.cs" t="Include" />
+              <e p="RiotAuthOpenIdConfiguration.cs" t="Include" />
+              <e p="RiotLcdsRsoLoginCredentials.cs" t="Include" />
+            </e>
+            <e p="Chat" t="Include">
+              <e p="ChatAuth.cs" t="Include" />
+              <e p="ChatPlayerItem.cs" t="Include" />
+              <e p="ChatSubjects.cs" t="Include" />
+            </e>
+            <e p="com" t="Include">
+              <e p="riotgames" t="Include">
+                <e p="platform" t="Include">
+                  <e p="account" t="Include">
+                    <e p="AccountSummary.cs" t="Include" />
+                  </e>
+                  <e p="broadcast" t="Include">
+                    <e p="BroadcastNotification.cs" t="Include" />
+                  </e>
+                  <e p="catalog" t="Include">
+                    <e p="champion" t="Include">
+                      <e p="ChampionDTO.cs" t="Include" />
+                      <e p="ChampionSkinDTO.cs" t="Include" />
+                    </e>
+                    <e p="runes" t="Include">
+                      <e p="Rune.cs" t="Include" />
+                      <e p="RuneType.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="client" t="Include">
+                    <e p="dynamic" t="Include">
+                      <e p="configuration" t="Include">
+                        <e p="ClientDynamicConfigurationNotification.cs" t="Include" />
+                      </e>
+                    </e>
+                  </e>
+                  <e p="clientfacade" t="Include">
+                    <e p="domain" t="Include">
+                      <e p="LoginDataPacket.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="game" t="Include">
+                    <e p="GameTypeConfigDTO.cs" t="Include" />
+                    <e p="map" t="Include">
+                      <e p="GameMapEnabledDTO.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="login" t="Include">
+                    <e p="AuthenticationCredentials.cs" t="Include" />
+                    <e p="LoginFailedException.cs" t="Include" />
+                    <e p="Session.cs" t="Include" />
+                  </e>
+                  <e p="matchmaking" t="Include">
+                    <e p="QueueThrottleDTO.cs" t="Include" />
+                  </e>
+                  <e p="messaging" t="Include">
+                    <e p="persistence" t="Include">
+                      <e p="SimpleDialogMessage.cs" t="Include" />
+                    </e>
+                  </e>
+                  <e p="serviceproxy" t="Include">
+                    <e p="LcdsServiceProxyResponse.cs" t="Include" />
+                  </e>
+                  <e p="statistics" t="Include">
+                    <e p="PlayerStatSummaries.cs" t="Include" />
+                    <e p="PlayerStatSummary.cs" t="Include" />
+                    <e p="SummaryAggStat.cs" t="Include" />
+                    <e p="SummaryAggStats.cs" t="Include" />
+                  </e>
+                  <e p="summoner" t="Include">
+                    <e p="AllSummonerData.cs" t="Include" />
+                    <e p="boost" t="Include">
+                      <e p="SummonerActiveBoostsDTO.cs" t="Include" />
+                    </e>
+                    <e p="RuneSlot.cs" t="Include" />
+                    <e p="spellbook" t="Include">
+                      <e p="BookPage.cs" t="Include" />
+                      <e p="SlotEntry.cs" t="Include" />
+                      <e p="SpellBook.cs" t="Include" />
+                    </e>
+                    <e p="Summoner.cs" t="Include" />
+                    <e p="SummonerCatalog.cs" t="Include" />
+                    <e p="SummonerDefaultSpells.cs" t="Include" />
+                    <e p="SummonerGameModeSpells.cs" t="Include" />
+                    <e p="SummonerLevelAndPoints.cs" t="Include" />
+                  </e>
+                  <e p="systemstate" t="Include">
+                    <e p="ClientSystemStatesNotification.cs" t="Include" />
+                    <e p="ReplaySystemStates.cs" t="Include" />
+                  </e>
+                </e>
+              </e>
+              <e p="RiotRtmpObject.cs" t="Include" />
+            </e>
+            <e p="Compression" t="Include">
+              <e p="GZip.cs" t="Include" />
+            </e>
+            <e p="LcdsRiotCalls.cs" t="Include" />
+            <e p="QueueConverter.cs" t="Include" />
+            <e p="RiotCalls.cs" t="Include" />
+            <e p="RiotData" t="Include">
+              <e p="RiotQueue.cs" t="Include" />
+            </e>
+            <e p="RiotWebClient.cs" t="Include" />
+            <e p="Status" t="Include">
+              <e p="GetCurrentStatus.cs" t="Include" />
+            </e>
+            <e p="Update" t="Include">
+              <e p="RiotUpdateHandler.cs" t="Include" />
+            </e>
+          </e>
+          <e p="UserInterfaceCore.cs" t="Include" />
+        </e>
+        <e p="morgana_vs_ahri_3.jpg" t="Include" />
+        <e p="NONE.png" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Pages" t="Include">
+          <e p="AccountSelectorPage.xaml" t="Include" />
+          <e p="AccountSelectorPage.xaml.cs" t="Include" />
+          <e p="HolderPage.xaml" t="Include" />
+          <e p="HolderPage.xaml.cs" t="Include" />
+          <e p="IcyWindPages" t="Include">
+            <e p="ChampionSelectPage.xaml" t="Include" />
+            <e p="ChampionSelectPage.xaml.cs" t="Include" />
+            <e p="DevPage.xaml" t="Include" />
+            <e p="DevPage.xaml.cs" t="Include" />
+            <e p="EndOfGamePage.xaml" t="Include" />
+            <e p="EndOfGamePage.xaml.cs" t="Include" />
+            <e p="GamePage.xaml" t="Include" />
+            <e p="GamePage.xaml.cs" t="Include" />
+            <e p="HomePage.xaml" t="Include" />
+            <e p="HomePage.xaml.cs" t="Include" />
+            <e p="PlayPage" t="Include">
+              <e p="MapSelectionPage.xaml" t="Include" />
+              <e p="MapSelectionPage.xaml.cs" t="Include" />
+            </e>
+            <e p="PlayPage.xaml" t="Include" />
+            <e p="PlayPage.xaml.cs" t="Include" />
+            <e p="ProfilePage.xaml" t="Include" />
+            <e p="ProfilePage.xaml.cs" t="Include" />
+          </e>
+          <e p="LoginPage.xaml" t="Include" />
+          <e p="LoginPage.xaml.cs" t="Include" />
+          <e p="MainPage.xaml" t="Include" />
+          <e p="MainPage.xaml.cs" t="Include" />
+        </e>
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.HostSideAdapters" t="IncludeRecursive">
+        <e p="IcyWind.HostSideAdapters.csproj" t="IncludeRecursive" />
+        <e p="MainContractToViewHostSideAdapter.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.HostViews" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IcyWind.HostViews.csproj" t="IncludeRecursive" />
+        <e p="IMainHostView.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Languages" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="English.xaml" t="Include" />
+        <e p="IcyWind.Languages.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.Plugin.AddInSideAdapter" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IcyWind.Plugin.AddInSideAdapter.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="IcyWind.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="PluginLoader" t="Include" />
+      <e p="README.md" t="Include" />
+      <e p="rtmpsharp" t="IncludeRecursive">
+        <e p="_Sky" t="Include">
+          <e p="Hina" t="Include">
+            <e p="ByteSpaceComparer.cs" t="Include" />
+            <e p="Check.cs" t="Include" />
+            <e p="CheckDebug.cs" t="Include" />
+            <e p="Collections" t="Include">
+              <e p="EmptyArray.cs" t="Include" />
+              <e p="EmptyCollection.cs" t="Include" />
+              <e p="Extensions" t="Include">
+                <e p="SpaceExtensions.cs" t="Include" />
+              </e>
+              <e p="KeyDictionary.cs" t="Include" />
+              <e p="StaticDictionary.cs" t="Include" />
+            </e>
+            <e p="DateTimeEx.cs" t="Include" />
+            <e p="EnumerableEx.cs" t="Include" />
+            <e p="ExceptionalEventArgs.cs" t="Include" />
+            <e p="Extensions" t="Include">
+              <e p="ArraySegmentExtensions.cs" t="Include" />
+              <e p="DeconstructExtensions.cs" t="Include" />
+              <e p="StringExtensions.cs" t="Include" />
+            </e>
+            <e p="IO" t="Include">
+              <e p="ByteReader.cs" t="Include" />
+              <e p="ByteWriter.cs" t="Include" />
+              <e p="Extensions" t="Include">
+                <e p="MemoryStreamExtensions.cs" t="Include" />
+                <e p="StreamExtensions.cs" t="Include" />
+              </e>
+              <e p="Zlib" t="Include">
+                <e p="Adler32.cs" t="Include" />
+                <e p="ZlibStream.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Linq" t="Include">
+              <e p="_HinaLinq.cs" t="Include" />
+              <e p="Buffer.cs" t="Include" />
+              <e p="MapFilter.cs" t="Include" />
+              <e p="None.cs" t="Include" />
+              <e p="ToKeyDictionary.cs" t="Include" />
+              <e p="ToQuickDictionary.cs" t="Include" />
+            </e>
+            <e p="MethodFactory.cs" t="Include" />
+            <e p="Net" t="Include">
+              <e p="SocketEx.cs" t="Include" />
+              <e p="TcpClientEx.cs" t="Include" />
+            </e>
+            <e p="Reflection" t="Include">
+              <e p="Extensions" t="Include">
+                <e p="ReflectionExtensions.cs" t="Include" />
+              </e>
+            </e>
+            <e p="Security" t="Include">
+              <e p="RandomEx.cs" t="Include" />
+            </e>
+            <e p="Space.cs" t="Include" />
+            <e p="Threading" t="Include">
+              <e p="AsyncAutoResetEvent.cs" t="Include" />
+              <e p="Extensions" t="Include">
+                <e p="TaskExtensions.cs" t="Include" />
+              </e>
+              <e p="TaskCallbackManager.cs" t="Include" />
+            </e>
+            <e p="UnixDateTime.cs" t="Include" />
+          </e>
+          <e p="Konseki" t="Include">
+            <e p="Kon.cs" t="Include" />
+            <e p="NameResolver.cs" t="Include" />
+            <e p="ObjectDumper.cs" t="Include" />
+          </e>
+        </e>
+        <e p="AsObject.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Infos" t="Include">
+          <e p="AsObjectInfo.cs" t="Include" />
+          <e p="BasicObjectInfo.cs" t="Include" />
+          <e p="ClassInfo.cs" t="Include" />
+          <e p="ExceptionObjectInfo.cs" t="Include" />
+          <e p="ExternalizableObjectInfo.cs" t="Include" />
+        </e>
+        <e p="IO" t="Include">
+          <e p="AMF3" t="Include">
+            <e p="ArrayCollection.cs" t="Include" />
+            <e p="ByteArray.cs" t="Include" />
+            <e p="DataInput.cs" t="Include" />
+            <e p="DataOutput.cs" t="Include" />
+            <e p="IDataInput.cs" t="Include" />
+            <e p="IDataOutput.cs" t="Include" />
+            <e p="IExternalizable.cs" t="Include" />
+            <e p="ObjectProxy.cs" t="Include" />
+          </e>
+          <e p="AmfReader.Amf0.cs" t="Include" />
+          <e p="AmfReader.Amf3.cs" t="Include" />
+          <e p="AmfReader.Base.cs" t="Include" />
+          <e p="AmfReader.cs" t="Include" />
+          <e p="AmfWriter.Amf0.cs" t="Include" />
+          <e p="AmfWriter.Amf3.cs" t="Include" />
+          <e p="AmfWriter.Base.cs" t="Include" />
+          <e p="AmfWriter.cs" t="Include" />
+        </e>
+        <e p="messaging" t="Include">
+          <e p="InvocationException.cs" t="Include" />
+          <e p="MessageReceivedEventArgs.cs" t="Include" />
+          <e p="Messages" t="Include">
+            <e p="AcknowledgeMessage.cs" t="Include" />
+            <e p="AsyncMessage.cs" t="Include" />
+            <e p="CommandMessage.cs" t="Include" />
+            <e p="ErrorMessage.cs" t="Include" />
+            <e p="FlexMessage.cs" t="Include" />
+            <e p="RemotingMessage.cs" t="Include" />
+          </e>
+        </e>
+        <e p="NanoTypeConverter.cs" t="Include" />
+        <e p="Net" t="Include">
+          <e p="ClientDisconnectedException.cs" t="Include" />
+          <e p="Messages" t="Include">
+            <e p="Abort.cs" t="Include" />
+            <e p="Acknowledgement.cs" t="Include" />
+            <e p="AudioVideoData.cs" t="Include" />
+            <e p="ChunkLength.cs" t="Include" />
+            <e p="Invoke.cs" t="Include" />
+            <e p="Notify.cs" t="Include" />
+            <e p="PeerBandwidth.cs" t="Include" />
+            <e p="RtmpMessage.cs" t="Include" />
+            <e p="UserControlMessage.cs" t="Include" />
+            <e p="WindowAcknowledgementSize.cs" t="Include" />
+          </e>
+          <e p="PacketContentType.cs" t="Include" />
+          <e p="RtmpClient.cs" t="Include" />
+          <e p="RtmpClient.Handshake.cs" t="Include" />
+          <e p="RtmpClient.Protocol.cs" t="Include" />
+          <e p="RtmpClient.Reader.cs" t="Include" />
+          <e p="RtmpClient.Writer.cs" t="Include" />
+          <e p="RtmpPacketReader.cs.no" t="Include" />
+          <e p="RtmpPacketWriter.cs.no" t="Include" />
+          <e p="StatusAsObject.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="ObjectEncoding.cs" t="Include" />
+        <e p="ObjectInfo.cs" t="Include" />
+        <e p="packages.config" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="RtmpIgnoreAttribute.cs" t="Include" />
+        <e p="RtmpSharp.cs" t="Include" />
+        <e p="rtmpsharp.csproj" t="IncludeRecursive" />
+        <e p="RtmpSharpAttribute.cs" t="Include" />
+        <e p="SerializationContext.cs" t="Include" />
+        <e p="TypeConverters" t="Include">
+          <e p="StringConverter.cs" t="Include" />
+        </e>
+        <e p="TypeRegistry.cs" t="Include" />
+      </e>
+      <e p="Solution Items" t="Include" />
+      <e p="WindowLoader" t="Include" />
+    </e>
+  </component>
+</project>

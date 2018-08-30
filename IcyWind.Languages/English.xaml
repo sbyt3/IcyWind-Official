@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <!-- String resource that can be localized -->
+    <system:String x:Key="PipelineRebuildFail">Could not rebuild pipeline:</system:String>
+    <system:String x:Key="MoreOneCore">More than one core detected. Please reinstall IcyWind. IcyWind will not run</system:String>
+    <system:String x:Key="PluginWrongLocation">Warning, some plugins are not installed in the correct location. IcyWind wil not run</system:String>
+    <system:String x:Key="Username">Username</system:String>
+    <system:String x:Key="Password">Password</system:String>
+    <system:String x:Key="Login">Login</system:String>
+    <system:String x:Key="LoginErrorGeneric">There was a problem with the login. Try again later.</system:String>
+    <system:String x:Key="NoCred">You must enter a username and password.</system:String>
+    <system:String x:Key="InvalidCred">The credentials provided were incorrect.</system:String>
+    <system:String x:Key="UserBanned">You have been banned. See your email for more info.</system:String>
+    <system:String x:Key="EmailNotVerified">You must verify your email before using IcyWind.</system:String>
+    <system:String x:Key="CheckEmail">Please check your email for 2FA.</system:String>
+    <system:String x:Key="CheckTextMsg">Please check your phone for 2FA.</system:String>
+    <system:String x:Key="InvalidRiotCred">The credentials for the account {acc} are invalid.</system:String>
+    <system:String x:Key="FeatureNotImplemented">Sorry about this. This feature is not finished yet. It is coming soon.</system:String>
+    <system:String x:Key="FeaturedDisabled">This feature has been disabled for testing. You must be a dev to use this feature.</system:String>
+    <system:String x:Key="FeaturedDonator">You will need to upgrade your account to access this feature.</system:String>
+    <system:String x:Key="AddAccount">Add Account</system:String>
+    <system:String x:Key="NotFinishedFeature">This feature is not finished and is disabled</system:String>
+    <system:String x:Key="PartyOpen">This feature is not finished and is disabled. This party is open and friends can join that way</system:String>
+    <system:String x:Key="AcceptedGame">A game was accepted for you. You may shortly be moved to the champion select page</system:String>
+    <system:String x:Key="UnknownResult">Unknown Result: A result different from what was expected was given</system:String>
+</ResourceDictionary>
