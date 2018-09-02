@@ -15,3 +15,10 @@ chat if there are any public members (non-collaborators) in that group.
 
 This document applies to all of the code created by IcyWind Software,
 excluding code that is licensed under another copyright or copyleft.
+
+If the program was used in compiled form, this document should also
+be included with the program and the file should not be renamed
+
+Example: IcyWind.Chat will includes this license,
+The compiled binary should have a directory that looks like
+(IcyWind.Chat -> IcyWind.Chat.dll + IcyWind.Chat.License)
