@@ -53,7 +53,7 @@ namespace IcyWind.Core.Pages
             StatusBox.Items.Add(new IcyWindStatus(Brushes.Green, "Go thank WildBook (TrapBook) for helping out the project"));
             StatusBox.Items.Add(new IcyWindStatus(Brushes.Green, "IcyWind.Auth server running"));
             StatusBox.Items.Add(new IcyWindStatus(Brushes.Green, "Riot servers running"));
-            Img.Source = new BitmapImage(new Uri(Path.Combine(StaticVars.IcyWindLocation, "IcyWindAssets", "morgana_vs_ahri_3.jpg")));
+            //Img.Source = new BitmapImage(new Uri(Path.Combine(StaticVars.IcyWindLocation, "IcyWindAssets", "morgana_vs_ahri_3.jpg")));
             Video.Source = new Uri(Path.Combine(StaticVars.IcyWindLocation, "IcyWindAssets", "LND.mp4"));
             Video.LoadedBehavior = MediaState.Manual;
             Video.SpeedRatio = 0.9;

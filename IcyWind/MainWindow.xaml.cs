@@ -46,6 +46,7 @@ namespace IcyWind
             {
                 // Get add-in pipeline folder (the folder in which this application was launched from)
                 var appPath = Path.Combine(Environment.CurrentDirectory, "core");
+
                 using (var client = new WebClient())
                 {
                     //This handles the IcyWind.Core verification process. 
