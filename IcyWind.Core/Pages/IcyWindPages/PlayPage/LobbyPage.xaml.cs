@@ -146,7 +146,19 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
             var party = await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCallWithResponse("parties.service", "proxy",
                 sendData);
 
+
+            var ready = JsonConvert.SerializeObject(new BodyHelper
+            {
+                body = "\"open\"",
+                method = "PUT",
+                url = $"v1/parties/{StaticVars.ActiveClient.CurrentParty.Payload.CurrentParty.PartyId}/members/{StaticVars.ActiveClient.LoginDataPacket.AllSummonerData.Summoner.Puuid:D}/ready"
+            });
+            await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCallWithResponse("parties.service", "proxy",
+                ready);
+
             var data = JsonConvert.DeserializeObject<PartyPayload>(party.Payload);
+
+            StaticVars.ActiveClient.CurrentParty = data;
 
             _roomJid = new Jid(data.Payload.CurrentParty.Chat.Jid + "@sec.pvp.net");
             StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid);
@@ -155,6 +167,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
             var loader = new Thread(async () =>
             {
                 Thread.Sleep(1000);
+
 
                 var sendData2 = JsonConvert.SerializeObject(new BodyHelper
                 {
@@ -258,6 +271,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
         private async void StartGameButton_OnClick(object sender, RoutedEventArgs e)
         {
             var data = await Lock("true");
+            Debugger.Break();
         }
 
         private void AutoAcceptCheckBox_OnChecked(object sender, RoutedEventArgs e)

@@ -57,10 +57,18 @@ namespace IcyWind.Core.Logic.Riot
 
         public static string MapToName(Map map)
         {
-            var type = typeof(Map);
-            var memInfo = type.GetMember(map.ToString());
-            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-            return ((DescriptionAttribute)attributes[0]).Description;
+            try
+            {
+
+                var type = typeof(Map);
+                var memInfo = type.GetMember(map.ToString());
+                var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+                return ((DescriptionAttribute) attributes[0]).Description;
+            }
+            catch
+            {
+                return "UnknownMap";
+            }
         }
     }
 
@@ -84,6 +92,8 @@ namespace IcyWind.Core.Logic.Riot
         ValoranCityPark = 18,
         [Description("Substructure 43")]
         Overcharge = 19,
+        [Description("Odyssey: Extraction Map")]
+        CrashSite = 19,
         [Description("Nexus Blitz")]
         NexusBlitz = 21
     }

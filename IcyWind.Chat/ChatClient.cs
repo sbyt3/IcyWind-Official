@@ -554,10 +554,10 @@ namespace IcyWind.Chat
 
                         //Temp, log the data
                         Debugger.Log(0, "", messageData + "\n");
-                        //Make sure taht the message actually has content, or just ignore it
+                        //Make sure that the message actually has content, or just ignore it
                         if (!string.IsNullOrWhiteSpace(messageData.ToString()))
                         {
-                            //If the string ends with a > we know that it is is the end of the xmpp string that was recieved
+                            //If the string ends with a > we know that it is is the end of the xmpp string that was received
                             //If not, add it to the string fragment helper
                             if (messageData.ToString().EndsWith(">"))
                             {
