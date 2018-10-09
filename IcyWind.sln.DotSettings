@@ -2,4 +2,5 @@
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=RSO/@EntryIndexedValue">RSO</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=SASL/@EntryIndexedValue">SASL</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=SSL/@EntryIndexedValue">SSL</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=XMPP/@EntryIndexedValue">XMPP</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=SASL/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

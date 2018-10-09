@@ -13,9 +13,11 @@ namespace IcyWind.Chat.Auth.Sasl
         public override void HandleAuth()
         {
             var sb = new StringBuilder();
+            //Create the plain auth string
             sb.Append((char)0);
             sb.Append(AuthCred.Username);
             sb.Append((char)0);
+            //Check if secure password is used instead of password and prefer it over password
             if (AuthCred.SecurePassword != null)
             {
                 var ptr = IntPtr.Zero;
@@ -35,8 +37,10 @@ namespace IcyWind.Chat.Auth.Sasl
                 sb.Append(AuthCred.Password);
 #pragma warning restore 618
             }
-            ChatClient.Client.SendString($"<sasl:auth mechanism=\'PLAIN\'>{sb}</sasl:auth>");
+            //Send the string to the server
+            ChatClient.TcpClient.SendString($"<sasl:auth mechanism=\'PLAIN\'>{sb}</sasl:auth>");
             sb.Clear();
+            // ReSharper disable once RedundantAssignment
             sb = null;
         }
     }

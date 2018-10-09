@@ -11,10 +11,24 @@ namespace IcyWind.Chat.TcpConnection
 {
     internal class TcpStringClient
     {
-
+        /// <summary>
+        /// The main connection to the server
+        /// </summary>
         internal TcpClient Client { get; set; }
+
+        /// <summary>
+        /// The stream (ssl)
+        /// </summary>
         internal SslStream SslStream { get; set; }
+
+        /// <summary>
+        /// The stream (non ssl)
+        /// </summary>
         internal NetworkStream NetStream { get; set; }
+
+        /// <summary>
+        /// The IP and Port of the tcp server
+        /// </summary>
         internal IPEndPoint EndPoint { get; }
         internal bool UseSSL { get; }
 
@@ -41,13 +55,14 @@ namespace IcyWind.Chat.TcpConnection
         {
             //Connect to Server
             await Client.ConnectAsync(EndPoint.Address, EndPoint.Port);
-
             NetStream = Client.GetStream();
+
+            StartReadLoop();
 
             return true;
         }
 
-        public async Task<bool> ConnectSSL(string host)
+        public async Task<bool> ConnectSSL(SslProtocols protocol, string host)
         {
             //Connect to Server
             await Client.ConnectAsync(EndPoint.Address, EndPoint.Port);
@@ -55,11 +70,17 @@ namespace IcyWind.Chat.TcpConnection
             SslStream = new SslStream(Client.GetStream(), true, (sender, certificate, chain, errors) => true);
 
             //Start stream auth
-            SslStream.AuthenticateAsClient(host, null, SslProtocols.Tls, false);
+            SslStream.AuthenticateAsClient(host, null, protocol, false);
 
             StartSSLReadLoop();
 
             return true;
+        }
+
+
+        public async Task<bool> ConnectSSL(string host)
+        {
+            return await ConnectSSL(SslProtocols.Tls, host);
         }
 
         public bool SendBytes(byte[] sendBytes)

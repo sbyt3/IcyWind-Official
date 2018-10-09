@@ -34,7 +34,7 @@ namespace IcyWind.Chat.Presence
 
             var encodedXml = System.Security.SecurityElement.Escape(status);
 
-            ChatClient.Client.SendString(PresenceAsString(status, pres, show));
+            ChatClient.TcpClient.SendString(PresenceAsString(status, pres, show));
         }
 
         public string PresenceAsString(ChatPresence pres)

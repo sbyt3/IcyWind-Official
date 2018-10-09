@@ -55,10 +55,13 @@
     <Compile Include="Auth\AuthNotSupportedException.cs" />
     <Compile Include="Auth\BaseAuth.cs" />
     <Compile Include="Auth\Sasl\Anonymous.cs" />
+    <Compile Include="Auth\Sasl\IcyWindAuth.cs" />
+    <Compile Include="Auth\Sasl\IcyWindFeatherAuth.cs" />
     <Compile Include="Auth\Sasl\Plain.cs" />
     <Compile Include="Auth\Sasl\XRiotRSO.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ChatRoom.cs" />
+    <Compile Include="Iq\IqHandler.cs" />
     <Compile Include="Jid\InvalidJidException.cs" />
     <Compile Include="Jid\InvalidJidTypeException.cs" />
     <Compile Include="Jid\UserJid.cs" />

@@ -14,7 +14,6 @@ namespace IcyWind.Chat.Auth
 
         public bool HandleAuth(XmlNode xmlNode)
         {
-
             var authHandled = false;
 
             foreach (var mechanism in xmlNode.ChildNodes)

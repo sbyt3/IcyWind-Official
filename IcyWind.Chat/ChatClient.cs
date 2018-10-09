@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using IcyWind.Chat.Auth;
+using IcyWind.Chat.Iq;
 using IcyWind.Chat.Jid;
 using IcyWind.Chat.Presence;
 using IcyWind.Chat.TcpConnection;
@@ -16,9 +16,9 @@ namespace IcyWind.Chat
     {
         #region XMPPClientData
         internal AuthHandler AuthHandler { get; set; }
-        internal TcpStringClient Client { get; set; }
-
+        internal TcpStringClient TcpClient { get; set; }
         public PresenceManager PresenceManager { get; internal set; }
+        public IqHandler IqManager { get; internal set; }
         #endregion XMPPClientData
 
         #region InternalVars
@@ -31,73 +31,35 @@ namespace IcyWind.Chat
         
         #region Delegates
         /// <summary>
-        /// Used to tell that the Auth string was sent. Sends the AuthToken
-        /// </summary>
-        /// <param name="rsoToken"></param>
-        public delegate void HandledAuth(string rsoToken);
-        public event HandledAuth HandledRsoAuth;
-
-        /// <summary>
         /// Returned when the server returns a successful login
         /// </summary>
         public delegate void SuccessLogin();
         public event SuccessLogin OnSuccessLogin;
-
-        /// <summary>
-        /// Called when the presence is being requested for XMPP
-        /// </summary>
-        /// <returns>Presence</returns>
-        public delegate string GetPresence();
-        public event GetPresence GetChatPresence;
-
-        /// <summary>
-        /// Called when a RostItem has been recieved
-        /// </summary>
-        /// <param name="jid">The user JID</param>
-        public delegate void RostItem(UserJid jid);
-        public event RostItem OnRosterItemRecieved;
-
-        /// <summary>
-        /// Got when a presence has been recieved.
-        /// </summary>
-        /// <param name="pres">The presence</param>
-        public delegate void OnPresence(ChatPresence pres);
-        public event OnPresence OnPlayerPresenceReceived;
-        public event OnPresence OnMobilePresenceReceived;
-
-        /// <summary>
-        /// Called when a message is recieved
-        /// </summary>
-        /// <param name="from">The user's JID</param>
-        /// <param name="message">The message from that user</param>
-        public delegate void OnMessage(UserJid from, string message);
-        public event OnMessage OnMessageReceived;
         #endregion Delegates
 
         #region PublicVars
-
         /// <summary>
         /// The current JID (Your JID)
         /// </summary>
         public UserJid MainJid { get; internal set; }
-
         #endregion PublicVars
 
         public ChatClient(IPEndPoint endPoint)
         {
-            Client = new TcpStringClient(endPoint, true);
+            TcpClient = new TcpStringClient(endPoint, true);
         }
 
         public ChatClient(IPEndPoint endPoint, bool ssl)
         {
-            Client = new TcpStringClient(endPoint, ssl);
+            TcpClient = new TcpStringClient(endPoint, ssl);
         }
 
         public async Task ConnectSSL(string host, AuthCred cred)
         {
             PresenceManager = new PresenceManager(this);
-            await Client.ConnectSSL(host);
-            Client.SendString(
+            IqManager = new IqHandler(this);
+            await TcpClient.ConnectSSL(host);
+            TcpClient.SendString(
                 $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
             AuthCred = cred;
         }
@@ -115,7 +77,7 @@ namespace IcyWind.Chat
                 throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
             }
 
-            var roomJoinString = Encoding.UTF8.GetBytes(
+            TcpClient.SendString(
                 $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
                 "<x xmlns=\'http://jabber.org/protocol/muc\'>" +
                 $"<password>{password}</password>" +
@@ -132,7 +94,7 @@ namespace IcyWind.Chat
                 throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
             }
 
-            Client.SendString($"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
+            TcpClient.SendString($"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
                               "<x xmlns=\'http://jabber.org/protocol/muc\'/>" +
                               "</presence>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
@@ -151,7 +113,7 @@ namespace IcyWind.Chat
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
 
-            Client.SendString($"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'chat\'><body>{encodedXml}</body></message>");
+            TcpClient.SendString($"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'chat\'><body>{encodedXml}</body></message>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
 
@@ -160,14 +122,14 @@ namespace IcyWind.Chat
         /// </summary>
         public void Disconnect()
         {
-            Client.SendString("</stream:stream>");
+            TcpClient.SendString("</stream:stream>");
             Disconnecting = true;
         }
 
         /// <summary>
-        /// The handler for when the string is recieved
+        /// The handler for when the string is received
         /// </summary>
-        /// <param name="x">The recieved string</param>
+        /// <param name="x">The received string</param>
         private bool ReadXMPPMessage(string x)
         {
             if (x.Contains("</stream:stream>"))
@@ -254,7 +216,7 @@ namespace IcyWind.Chat
                                 OnSuccessLogin?.Invoke();
 
                                 //Send another random static string
-                                Client.SendString(
+                                TcpClient.SendString(
                                     "<stream:stream " +
                                     "to=\"pvp.net\" " +
                                     "xml:lang=\"*\" " +
@@ -271,104 +233,19 @@ namespace IcyWind.Chat
                             {
                                 //This is sent from client to server after this is received. I honestly don't know this xmpp stuff so lets pretend we read that
 
-                                Client.SendString("<iq type=\"set\" id=\"0\"><bind xmlns=\"urn:ietf:params:xml:ns:xmpp-bind\"><resource>RC</resource></bind></iq>");
+                                TcpClient.SendString("<iq type=\"set\" id=\"0\"><bind xmlns=\"urn:ietf:params:xml:ns:xmpp-bind\"><resource>RC</resource></bind></iq>");
 
                                 break;
                             }
 
                             #endregion IDontKnowWtfThisIsButReturnBinding
 
-                            #region HandleSessionIQ
-
-                            if (el.Name == "iq" && xmlNode.Name == "bind" && xmlNode.HasChildNodes)
+                            #region IQManager
+                            if (el.Name == "iq")
                             {
-                                //Make sure that this is the correct IQ and stuff
-                                if (xmlNode.ChildNodes.Count == 1 &&
-                                    xmlNode.FirstChild.Name == "jid")
-                                {
-                                    MainJid = new UserJid(xmlNode.InnerText);
-
-                                    Client.SendString("<iq type=\"set\" id=\"1\"><session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\"/></iq>");
-                                }
+                                IqManager.HandleIq(xmlNode, el);
                             }
-
-                            #endregion HandleSessionIQ
-
-                            #region SessionIQHandler
-
-                            if (el.Name == "iq" && xmlNode.Name == "session")
-                            {
-                                //Make sure that this is the correct thing
-                                if (xmlNode.ChildNodes.Count == 2 &&
-                                    xmlNode.LastChild.Name == "summoner_name")
-                                {
-                                    MainJid.SumName = xmlNode.LastChild.InnerText;
-                                    //Require presence from the client. The client should use PresenceAsString to craft this presence
-                                    var presence = GetChatPresence?.Invoke();
-                                    if (!string.IsNullOrEmpty(presence))
-                                    {
-                                        //Write the presence to all clients
-                                        Client.SendString(presence);
-                                    }
-
-                                    //Request roster and priv_req (I think this is friend requests)
-                                    Client.SendString(
-                                        $"<iq type=\"get\" id=\"priv_req_2\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:privacy\"><list name=\"LOL\"/></query></iq>");
-                                    Client.SendString(
-                                        $"<iq type=\"get\" id=\"rst_req_3\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:roster\"/></iq>");
-                                    var date = "";
-
-                                    //Lazy hack to subtract a month from today's date
-                                    date = DateTime.Now.Month == 1
-                                        ? $"{DateTime.Now.Year - 1}-12-{DateTime.Now.Day}"
-                                        : $"{DateTime.Now.Year}-{DateTime.Now.Month - 1}-{DateTime.Now.Day}";
-
-                                    //Retrieve any former messages from the history of the archives
-                                    Client.SendString(
-                                        $"<iq type=\"get\" id=\"recent_conv_req_4\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:archive:list\">" +
-                                        $"<since>{date} 00:00:00</since><count>10</count></query></iq>");
-                                }
-                            }
-
-                            #endregion SessionIQHandler
-
-                            #region RosterIQ
-
-                            if (el.Name == "iq" && el.HasAttribute("id") &&
-                                     el.Attributes["id"].InnerText == "rst_req_3")
-                            {
-                                if (xmlNode.HasChildNodes)
-                                {
-                                    foreach (var itemNode in xmlNode.ChildNodes)
-                                    {
-                                        var itemRostNode = (XmlNode) itemNode;
-
-                                        try
-                                        {
-                                            //Create the JID
-                                            var inJid = new UserJid(itemRostNode.Attributes["jid"].Value)
-                                            {
-                                                SumName = itemRostNode.Attributes["name"].Value,
-                                                Group = itemRostNode.HasChildNodes
-                                                    ? itemRostNode.FirstChild.InnerText
-                                                    : "**Default",
-                                                Type = JidType.FriendChatJid,
-                                            };
-
-                                            //If the user has a group print it, otherwise return **Default
-
-                                            //Send the jid
-                                            OnRosterItemRecieved?.Invoke(inJid);
-                                        }
-                                        catch
-                                        {
-                                            // Don't know if we find attr
-                                        }
-                                    }
-                                }
-                            }
-
-                            #endregion RosterIQ
+                            #endregion IQManager
                         }
                     }
                     else

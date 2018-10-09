@@ -8,7 +8,7 @@
 
         public override void HandleAuth()
         {
-            ChatClient.Client.SendString($"<auth xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\" mechanism=\"{AuthMethod}\">{AuthCred.RSO}</auth>");
+            ChatClient.TcpClient.SendString($"<auth xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\" mechanism=\"{AuthMethod}\">{AuthCred.Token}</auth>");
         }
     }
 }
