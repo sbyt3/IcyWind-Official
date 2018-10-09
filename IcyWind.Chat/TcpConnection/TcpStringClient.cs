@@ -14,6 +14,7 @@ namespace IcyWind.Chat.TcpConnection
 
         internal TcpClient Client { get; set; }
         internal SslStream SslStream { get; set; }
+        internal NetworkStream NetStream { get; set; }
         internal IPEndPoint EndPoint { get; }
         internal bool UseSSL { get; }
 
@@ -34,6 +35,18 @@ namespace IcyWind.Chat.TcpConnection
             Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
         }
 
+
+
+        public async Task<bool> Connect(string host)
+        {
+            //Connect to Server
+            await Client.ConnectAsync(EndPoint.Address, EndPoint.Port);
+
+            NetStream = Client.GetStream();
+
+            return true;
+        }
+
         public async Task<bool> ConnectSSL(string host)
         {
             //Connect to Server
@@ -43,6 +56,8 @@ namespace IcyWind.Chat.TcpConnection
 
             //Start stream auth
             SslStream.AuthenticateAsClient(host, null, SslProtocols.Tls, false);
+
+            StartSSLReadLoop();
 
             return true;
         }
@@ -82,6 +97,62 @@ namespace IcyWind.Chat.TcpConnection
                 {
                     //Read
                     bytes = SslStream.Read(buffer, 0, buffer.Length);
+
+                    //Decode that data
+                    var decoder = Encoding.UTF8.GetDecoder();
+                    var chars = new char[decoder.GetCharCount(buffer, 0, bytes)];
+                    decoder.GetChars(buffer, 0, bytes, chars, 0);
+                    messageData.Append(chars);
+
+                    //Temp, log the data
+                    Debugger.Log(0, "", messageData + "\n");
+                    //Make sure that the message actually has content, or just ignore it
+                    if (!string.IsNullOrWhiteSpace(messageData.ToString()))
+                    {
+                        //If the buffer is full and does not end with '>' it must be a fragmented string
+                        if (messageData.Length == buffer.Length && !messageData.ToString().EndsWith(">"))
+                        {
+                            fragStr += messageData.ToString();
+                        }
+                        else
+                        {
+                            if (OnStringReceived?.Invoke(fragStr + messageData) == true)
+                            {
+                                fragStr = string.Empty;
+                            }
+                            else
+                            {
+                                fragStr += messageData.ToString();
+                            }
+                        }
+                    }
+
+                    messageData.Clear();
+
+
+                } while (bytes != 0);
+            })
+            { Priority = ThreadPriority.AboveNormal };
+            t.Start();
+        }
+
+
+        public void StartReadLoop()
+        {
+            var t = new Thread(() =>
+            {
+                //Sometimes strings are sent fragmented. This stores the fragmented string
+                var fragStr = string.Empty;
+
+                //Create the data for the SslStream.Read
+                var buffer = new byte[1024 * 8];
+                var messageData = new StringBuilder();
+                int bytes;
+
+                do
+                {
+                    //Read
+                    bytes = NetStream.Read(buffer, 0, buffer.Length);
 
                     //Decode that data
                     var decoder = Encoding.UTF8.GetDecoder();

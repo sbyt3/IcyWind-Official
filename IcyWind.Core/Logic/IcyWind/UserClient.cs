@@ -8,6 +8,7 @@ using System.Timers;
 using System.Xml;
 using DotNetty.Transport.Channels;
 using IcyWind.Chat;
+using IcyWind.Chat.Jid;
 using IcyWind.Chat.Presence;
 using IcyWind.Core.Logic.Data;
 using IcyWind.Core.Logic.Riot;
@@ -229,7 +230,7 @@ namespace IcyWind.Core.Logic.IcyWind
             HeartbeatCount++;
         }
 
-        public void OnMessage(Jid jid, string message)
+        public void OnMessage(UserJid jid, string message)
         {
             var findPlayer = Players.FirstOrDefault(x => x.JidAsString == jid.PlayerJid);
             findPlayer?.Messages.Add(new KeyValuePair<string, string>(jid.PlayerJid, message));
@@ -299,7 +300,7 @@ namespace IcyWind.Core.Logic.IcyWind
             }
         }
 
-        public void OnRostRecieve(Jid jid)
+        public void OnRostRecieve(UserJid jid)
         {
             if (!Players.Exists(x => x.JidAsString == jid.PlayerJid))
             {

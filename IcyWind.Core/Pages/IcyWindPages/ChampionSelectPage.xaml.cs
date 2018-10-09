@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using IcyWind.Chat;
+using IcyWind.Chat.Jid;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic;
 using IcyWind.Core.Logic.IcyWind;
@@ -38,7 +39,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
         private bool _hasInit = false;
         private readonly SumSpellData _internalSpellData;
         private readonly ChampionData _internalChampData;
-        private Jid _roomJid;
+        private UserJid _roomJid;
         private List<PlayerItem> _teamPlayerItems;
         private int _selectedWardSkin;
         private long _champId;
@@ -176,7 +177,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
                     await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCall("teambuilder-draft",
                         "updateInventoryV1", $"{{\"simplifiedInventoryJwt\":\"{StaticVars.ActiveClient.InvToken}\"}}");
 
-                    _roomJid = new Jid(message.ChampionSelectState.TeamChatRoomId + "@champ-select.pvp.net");
+                    _roomJid = new UserJid(message.ChampionSelectState.TeamChatRoomId + "@champ-select.pvp.net");
                     StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid);
                     StaticVars.ActiveClient.XmppClient.OnMessageRecieved += OnMessage;
                     var t = new Timer
@@ -346,7 +347,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
             }));
         }
 
-        public void OnMessage(Jid jid, string message)
+        public void OnMessage(UserJid jid, string message)
         {
             if (jid.PlayerJid == _roomJid.PlayerJid)
             {

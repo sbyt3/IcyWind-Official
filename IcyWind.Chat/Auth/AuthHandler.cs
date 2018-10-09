@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
+using IcyWind.Chat.Auth.Sasl;
 
 namespace IcyWind.Chat.Auth
 {
     public class AuthHandler
     {
-        private ChatClient _chatClient { get; }
+        private ChatClient ChatClient { get; }
 
         public AuthHandler(ChatClient client)
         {
-            _chatClient = client;
+            ChatClient = client;
         }
 
         public bool HandleAuth(XmlNode xmlNode)
@@ -28,17 +24,17 @@ namespace IcyWind.Chat.Auth
                 //Allow custom auth methods to be added
                 //If a custom auth method is added, override IcyWind.Chat's
                 //built in auth methods
-                if (_chatClient.AuthMethod != null)
+                if (ChatClient.AuthMethod != null)
                 {
                     //Check that the auth method specified is the
                     //wanted auth method
-                    if (mechanismXml.InnerText != _chatClient.AuthMethod.AuthMethod)
+                    if (mechanismXml.InnerText != ChatClient.AuthMethod.AuthMethod)
                     {
                         continue;
                     }
                     //Handle the auth
                     authHandled = true;
-                    _chatClient.AuthMethod.HandleAuth();
+                    ChatClient.AuthMethod.HandleAuth();
                     break;
                 }
 
@@ -58,7 +54,7 @@ namespace IcyWind.Chat.Auth
             if (authHandled)
                 return true;
 
-            if (_chatClient.AuthMethod != null)
+            if (ChatClient.AuthMethod != null)
             {
                 throw new AuthNotSupportedException("The auth method specified is not supported by the server");
             }
@@ -67,12 +63,19 @@ namespace IcyWind.Chat.Auth
                 "IcyWind.Chat does not support any of the SASL auth mechanisms of the server");
         }
 
+        /// <summary>
+        /// Gets the SASL method for a given method
+        /// </summary>
+        /// <param name="method">The SASL Method (Case sensitive)</param>
+        /// <returns>The SASL method as <see cref="BaseAuth"/></returns>
         public BaseAuth GetSASLAuthHandler(string method)
         {
             switch (method)
             {
                 case "X-Riot-RSO":
-                    return new XRiotRSO(_chatClient);
+                    return new XRiotRSO(ChatClient);
+                case "PLAIN":
+                    return new Plain(ChatClient);
                 default:
                     throw new AuthNotSupportedException($"The SASL authentication ({method}) is not supported by IcyWind.Chat");
             }
@@ -82,6 +85,8 @@ namespace IcyWind.Chat.Auth
         {
             switch (method)
             {
+                case "ANONYMOUS":
+                case "PLAIN":
                 case "X-Riot-RSO":
                     return true;
                 default:

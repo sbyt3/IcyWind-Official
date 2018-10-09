@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using IcyWind.Chat;
+using IcyWind.Chat.Jid;
 using IcyWind.Core.Logic.IcyWind;
 using IcyWind.Core.Logic.Riot.Chat;
 
@@ -18,9 +19,9 @@ namespace IcyWind.Core.Controls
     public partial class ChatBoxControl : UserControl
     {
         public bool Visable { get; set; }
-        private readonly Jid _jid;
+        private readonly UserJid _jid;
         private readonly ChatPlayerItem _chatPlayerItem;
-        public ChatBoxControl(Jid jid)
+        public ChatBoxControl(UserJid jid)
         {
             _jid = jid;
             _chatPlayerItem = StaticVars.ActiveClient.Players.First(x => x.JidAsString == jid.PlayerJid);
@@ -64,7 +65,7 @@ namespace IcyWind.Core.Controls
             }));
         }
 
-        public void OnMessage(Jid jid, string message)
+        public void OnMessage(UserJid jid, string message)
         {
             if (jid.PlayerJid == _jid.PlayerJid)
             {

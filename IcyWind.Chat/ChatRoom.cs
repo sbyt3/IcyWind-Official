@@ -10,13 +10,13 @@ namespace IcyWind.Chat
 {
     public class ChatRoom
     {
-        public Jid RoomJid { get; }
+        public Jid.UserJid RoomJid { get; }
 
-        private ChatClient _chatClient { get; }
+        private ChatClient ChatClient { get; }
 
-        internal ChatRoom(ChatClient chatClient, Jid roomJid)
+        internal ChatRoom(ChatClient chatClient, Jid.UserJid roomJid)
         {
-            _chatClient = chatClient;
+            ChatClient = chatClient;
             RoomJid = roomJid;
         }
 
@@ -24,7 +24,7 @@ namespace IcyWind.Chat
         {
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
-            _chatClient.Client.SendString($"<message from=\'{_chatClient.MainJid.RawJid}\' to=\'{RoomJid.RawJid}\' type=\'groupchat\'><body>{encodedXml}</body></message>");
+            ChatClient.Client.SendString($"<message from=\'{ChatClient.MainJid.RawJid}\' to=\'{RoomJid.RawJid}\' type=\'groupchat\'><body>{encodedXml}</body></message>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
     }

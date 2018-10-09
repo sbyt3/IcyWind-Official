@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Net.Security;
-using System.Net.Sockets;
-using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using IcyWind.Chat.Auth;
+using IcyWind.Chat.Jid;
 using IcyWind.Chat.Presence;
 using IcyWind.Chat.TcpConnection;
 
@@ -57,7 +54,7 @@ namespace IcyWind.Chat
         /// Called when a RostItem has been recieved
         /// </summary>
         /// <param name="jid">The user JID</param>
-        public delegate void RostItem(Jid jid);
+        public delegate void RostItem(UserJid jid);
         public event RostItem OnRosterItemRecieved;
 
         /// <summary>
@@ -73,7 +70,7 @@ namespace IcyWind.Chat
         /// </summary>
         /// <param name="from">The user's JID</param>
         /// <param name="message">The message from that user</param>
-        public delegate void OnMessage(Jid from, string message);
+        public delegate void OnMessage(UserJid from, string message);
         public event OnMessage OnMessageReceived;
         #endregion Delegates
 
@@ -82,7 +79,7 @@ namespace IcyWind.Chat
         /// <summary>
         /// The current JID (Your JID)
         /// </summary>
-        public Jid MainJid { get; internal set; }
+        public UserJid MainJid { get; internal set; }
 
         #endregion PublicVars
 
@@ -111,8 +108,13 @@ namespace IcyWind.Chat
             return true;
         }
 
-        public ChatRoom JoinRoom(Jid roomJid, string password)
+        public ChatRoom JoinRoom(UserJid roomJid, string password)
         {
+            if (roomJid.Type != JidType.GroupChatJid)
+            {
+                throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
+            }
+
             var roomJoinString = Encoding.UTF8.GetBytes(
                 $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
                 "<x xmlns=\'http://jabber.org/protocol/muc\'>" +
@@ -123,13 +125,16 @@ namespace IcyWind.Chat
             return new ChatRoom(this, roomJid);
         }
 
-        public ChatRoom JoinRoom(Jid roomJid)
+        public ChatRoom JoinRoom(UserJid roomJid)
         {
-            var roomJoinString = Encoding.UTF8.GetBytes(
-                $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
-                "<x xmlns=\'http://jabber.org/protocol/muc\'/>" +
-                "</presence>");
-            SslStream.Write(roomJoinString);
+            if (roomJid.Type != JidType.GroupChatJid)
+            {
+                throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
+            }
+
+            Client.SendString($"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
+                              "<x xmlns=\'http://jabber.org/protocol/muc\'/>" +
+                              "</presence>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
             return new ChatRoom(this, roomJid);
@@ -140,15 +145,13 @@ namespace IcyWind.Chat
         /// </summary>
         /// <param name="to">The user's Jid you want to send the message to</param>
         /// <param name="message">The message to send</param>
-        public void SendMessage(Jid to, string message)
+        public void SendMessage(UserJid to, string message)
         {
             //Set to high priority
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
-            var messageSend =
-                Encoding.UTF8.GetBytes(
-                    $"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'chat\'><body>{encodedXml}</body></message>");
-            SslStream.Write(messageSend);
+
+            Client.SendString($"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'chat\'><body>{encodedXml}</body></message>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
 
@@ -157,34 +160,8 @@ namespace IcyWind.Chat
         /// </summary>
         public void Disconnect()
         {
-            var disStr = Encoding.UTF8.GetBytes("</stream:stream>");
-            SslStream.Write(disStr);
+            Client.SendString("</stream:stream>");
             Disconnecting = true;
-        }
-
-        private bool _isPinging = false;
-        /// <summary>
-        /// Handdles the XMPP Ping to stop disconnects
-        /// </summary>
-        private void Ping()
-        {
-            var pingThread = new Thread(() =>
-            {
-                _isPinging = true;
-                while (!Disconnecting)
-                {
-                    Thread.Sleep(TimeSpan.FromSeconds(60));
-                    if (GetChatPresence == null)
-                        continue;
-                    var messageSend =
-                        Encoding.UTF8.GetBytes(GetChatPresence());
-                    SslStream.Write(messageSend);
-                }
-            });
-            if (!_isPinging)
-            {
-                pingThread.Start();
-            }
         }
 
         /// <summary>
@@ -292,12 +269,9 @@ namespace IcyWind.Chat
 
                             if (xmlNode.Name == "rxep")
                             {
-                                //This is sent from client to server after this is recieved. I honestly don't know this xmpp stuff so lets pretend we read that
-                                var resource =
-                                    Encoding.UTF8.GetBytes(
-                                        "<iq type=\"set\" id=\"0\"><bind xmlns=\"urn:ietf:params:xml:ns:xmpp-bind\"><resource>RC</resource></bind></iq>");
+                                //This is sent from client to server after this is received. I honestly don't know this xmpp stuff so lets pretend we read that
 
-                                SslStream.Write(resource);
+                                Client.SendString("<iq type=\"set\" id=\"0\"><bind xmlns=\"urn:ietf:params:xml:ns:xmpp-bind\"><resource>RC</resource></bind></iq>");
 
                                 break;
                             }
@@ -312,15 +286,9 @@ namespace IcyWind.Chat
                                 if (xmlNode.ChildNodes.Count == 1 &&
                                     xmlNode.FirstChild.Name == "jid")
                                 {
-                                    MainJid = new Jid(xmlNode.InnerText);
+                                    MainJid = new UserJid(xmlNode.InnerText);
 
-                                    var session =
-                                        Encoding.UTF8.GetBytes(
-                                            "<iq type=\"set\" id=\"1\"><session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\"/></iq>");
-
-                                    SslStream.Write(session);
-
-                                    Ping();
+                                    Client.SendString("<iq type=\"set\" id=\"1\"><session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\"/></iq>");
                                 }
                             }
 
@@ -340,14 +308,14 @@ namespace IcyWind.Chat
                                     if (!string.IsNullOrEmpty(presence))
                                     {
                                         //Write the presence to all clients
-                                        SslStream.Write(Encoding.UTF8.GetBytes(presence));
+                                        Client.SendString(presence);
                                     }
 
                                     //Request roster and priv_req (I think this is friend requests)
-                                    SslStream.Write(Encoding.UTF8.GetBytes(
-                                        $"<iq type=\"get\" id=\"priv_req_2\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:privacy\"><list name=\"LOL\"/></query></iq>"));
-                                    SslStream.Write(Encoding.UTF8.GetBytes(
-                                        $"<iq type=\"get\" id=\"rst_req_3\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:roster\"/></iq>"));
+                                    Client.SendString(
+                                        $"<iq type=\"get\" id=\"priv_req_2\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:privacy\"><list name=\"LOL\"/></query></iq>");
+                                    Client.SendString(
+                                        $"<iq type=\"get\" id=\"rst_req_3\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:roster\"/></iq>");
                                     var date = "";
 
                                     //Lazy hack to subtract a month from today's date
@@ -356,9 +324,9 @@ namespace IcyWind.Chat
                                         : $"{DateTime.Now.Year}-{DateTime.Now.Month - 1}-{DateTime.Now.Day}";
 
                                     //Retrieve any former messages from the history of the archives
-                                    SslStream.Write(Encoding.UTF8.GetBytes(
+                                    Client.SendString(
                                         $"<iq type=\"get\" id=\"recent_conv_req_4\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:archive:list\">" +
-                                        $"<since>{date} 00:00:00</since><count>10</count></query></iq>"));
+                                        $"<since>{date} 00:00:00</since><count>10</count></query></iq>");
                                 }
                             }
 
@@ -378,12 +346,13 @@ namespace IcyWind.Chat
                                         try
                                         {
                                             //Create the JID
-                                            var inJid = new Jid(itemRostNode.Attributes["jid"].Value)
+                                            var inJid = new UserJid(itemRostNode.Attributes["jid"].Value)
                                             {
                                                 SumName = itemRostNode.Attributes["name"].Value,
                                                 Group = itemRostNode.HasChildNodes
                                                     ? itemRostNode.FirstChild.InnerText
-                                                    : "**Default"
+                                                    : "**Default",
+                                                Type = JidType.FriendChatJid,
                                             };
 
                                             //If the user has a group print it, otherwise return **Default

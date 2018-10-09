@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using IcyWind.Chat;
+using IcyWind.Chat.Jid;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic;
 using IcyWind.Core.Logic.IcyWind;
@@ -314,7 +315,7 @@ namespace IcyWind.Core.Pages
             ChatBoxControl chatControl;
             if (!ChatControls.ContainsKey(item.JidAsString))
             {
-                chatControl = new ChatBoxControl(new Jid(item.JidAsString));
+                chatControl = new ChatBoxControl(new UserJid(item.JidAsString));
                 StaticVars.ActiveClient.XmppClient.OnMessageRecieved += chatControl.OnMessage;
                 chatControl.HideButton.Click += (o, args) => { HolderGrid.Children.Remove(chatControl); };
                 chatControl.RemoveButton.Click += (o, args) =>

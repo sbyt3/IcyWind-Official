@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IcyWind.Chat.Auth
 {
+    /// <summary>
+    /// Thrown when all presented SASL Methods are not supported by IcyWind.Chat
+    /// </summary>
     public class AuthNotSupportedException : Exception
     {
         public AuthNotSupportedException() { }

@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using IcyWind.Chat;
+using IcyWind.Chat.Jid;
 using IcyWind.Chat.Presence;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic;
@@ -39,7 +40,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
         private bool _autoAccept = true;
         private bool _hasLoaded = false;
         private int _id;
-        private Jid _roomJid;
+        private UserJid _roomJid;
 
         public LobbyPage()
         {
@@ -161,7 +162,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
 
             StaticVars.ActiveClient.CurrentParty = data;
 
-            _roomJid = new Jid(data.Payload.CurrentParty.Chat.Jid + "@sec.pvp.net");
+            _roomJid = new UserJid(data.Payload.CurrentParty.Chat.Jid + "@sec.pvp.net");
             StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid);
             StaticVars.ActiveClient.XmppClient.OnMessageRecieved += OnMessage;
 
@@ -301,7 +302,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
             }));
         }
 
-        public void OnMessage(Jid jid, string message)
+        public void OnMessage(UserJid jid, string message)
         {
             if (jid.PlayerJid == _roomJid.PlayerJid && jid.Extra != StaticVars.ActiveClient.LoginDataPacket.AllSummonerData.Summoner.Name)
             {

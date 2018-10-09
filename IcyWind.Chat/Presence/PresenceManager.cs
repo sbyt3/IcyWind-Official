@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
+using IcyWind.Chat.Jid;
 
 namespace IcyWind.Chat.Presence
 {
@@ -76,7 +73,7 @@ namespace IcyWind.Chat.Presence
                 //Create the new presence
                 var pres = new ChatPresence
                 {
-                    FromJid = new Jid(el.Attributes["from"].Value),
+                    FromJid = new UserJid(el.Attributes["from"].Value),
                 };
                 try
                 {

@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace IcyWind.Chat
+namespace IcyWind.Chat.Jid
 {
-    public class Jid
+    public class UserJid
     {
-        public static bool operator== (Jid orgJid, Jid compJid)
+        public static bool operator== (UserJid orgJid, UserJid compJid)
         {
-            return orgJid.PlayerJid == compJid.PlayerJid;
+            return orgJid != null && (compJid != null && orgJid.PlayerJid == compJid.PlayerJid);
         }
 
-        public static bool operator!= (Jid orgJid, Jid compJid)
+        public static bool operator!= (UserJid orgJid, UserJid compJid)
         {
-            return orgJid.PlayerJid != compJid.PlayerJid;
+            return compJid != null && (orgJid != null && orgJid.PlayerJid != compJid.PlayerJid);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Jid compJid)
+            if (obj is UserJid compJid)
             {
                 if (this == compJid)
                 {
@@ -32,6 +28,7 @@ namespace IcyWind.Chat
 
         public override int GetHashCode()
         {
+            // ReSharper disable once BaseObjectGetHashCodeCallInGetHashCode
             return base.GetHashCode();
         }
 
@@ -50,7 +47,9 @@ namespace IcyWind.Chat
 
         public string Group { get; internal set; }
 
-        public Jid(string rJid)
+        public JidType Type { get; internal set; } = JidType.UnknownJid;
+
+        public UserJid(string rJid)
         {
             RawJid = rJid;
             if (rJid.Contains("/"))
@@ -70,7 +69,7 @@ namespace IcyWind.Chat
         }
     }
 
-    internal enum JidSourceType
+    public enum JidType
     {
         FriendChatJid,
         GroupChatJid,

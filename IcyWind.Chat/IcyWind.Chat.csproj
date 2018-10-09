@@ -54,10 +54,14 @@
     <Compile Include="Auth\AuthHandler.cs" />
     <Compile Include="Auth\AuthNotSupportedException.cs" />
     <Compile Include="Auth\BaseAuth.cs" />
-    <Compile Include="Auth\XRiotRSO.cs" />
+    <Compile Include="Auth\Sasl\Anonymous.cs" />
+    <Compile Include="Auth\Sasl\Plain.cs" />
+    <Compile Include="Auth\Sasl\XRiotRSO.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ChatRoom.cs" />
-    <Compile Include="Jid.cs" />
+    <Compile Include="Jid\InvalidJidException.cs" />
+    <Compile Include="Jid\InvalidJidTypeException.cs" />
+    <Compile Include="Jid\UserJid.cs" />
     <Compile Include="Presence\ChatPresence.cs" />
     <Compile Include="Presence\PresenceShow.cs" />
     <Compile Include="Presence\PresenceType.cs" />
