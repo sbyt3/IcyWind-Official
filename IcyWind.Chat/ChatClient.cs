@@ -17,10 +17,12 @@ namespace IcyWind.Chat
 {
     public class ChatClient
     {
-        #region ServerData
+        #region XMPPClientData
         internal AuthHandler AuthHandler { get; set; }
         internal TcpStringClient Client { get; set; }
-        #endregion ServerData
+
+        public PresenceManager PresenceManager { get; internal set; }
+        #endregion XMPPClientData
 
         #region InternalVars
         internal int Id { get; set; }
@@ -96,6 +98,7 @@ namespace IcyWind.Chat
 
         public async Task ConnectSSL(string host, AuthCred cred)
         {
+            PresenceManager = new PresenceManager(this);
             await Client.ConnectSSL(host);
             Client.SendString(
                 $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
@@ -106,34 +109,6 @@ namespace IcyWind.Chat
         {
             AuthMethod = authMethod;
             return true;
-        }
-        /// <summary>
-        /// Lets you change the XMPP Presence
-        /// </summary>
-        /// <param name="status">Your status</param>
-        /// <param name="pres">The pressence</param>
-        /// <param name="show">The show</param>
-        public void SetPresence(string status, PresenceType pres, PresenceShow show)
-        {
-            var encodedXml = System.Security.SecurityElement.Escape(status);
-
-            var presence =
-                Encoding.UTF8.GetBytes(
-                    $"<presence type=\"{ConvertPresenceType.ConvertPresenceTypeToString(pres)}\"><priority>0</priority><show>{ConvertPresenceShow.ConvertPresenceShowToString(show)}</show><status>{encodedXml}</status></presence>");
-            SslStream.Write(presence);
-        }
-
-        /// <summary>
-        /// Lets you change the XMPP Presence
-        /// </summary>
-        /// <param name="status">Your status</param>
-        /// <param name="pres">The pressence</param>
-        /// <param name="show">The show</param>
-        /// <returns>The output presence</returns>
-        public string PresenceAsString(string status, PresenceType pres, PresenceShow show)
-        {
-            var encodedXml = System.Security.SecurityElement.Escape(status);
-            return $"<presence type=\"{ConvertPresenceType.ConvertPresenceTypeToString(pres)}\"><priority>0</priority><show>{ConvertPresenceShow.ConvertPresenceShowToString(show)}</show><status>{encodedXml}</status></presence>";
         }
 
         public ChatRoom JoinRoom(Jid roomJid, string password)
@@ -216,7 +191,7 @@ namespace IcyWind.Chat
         /// The handler for when the string is recieved
         /// </summary>
         /// <param name="x">The recieved string</param>
-        private bool ChatServer_RecieveString(string x)
+        private bool ReadXMPPMessage(string x)
         {
             if (x.Contains("</stream:stream>"))
             {
@@ -245,51 +220,7 @@ namespace IcyWind.Chat
 
                     if (el.Name == "presence" && el.HasChildNodes)
                     {
-                        try
-                        {
-                            //Make sure that the presence is not from yourself. We already know you are online
-                            if (el.Attributes["from"].Value == el.Attributes["to"].Value)
-                                return true;
-
-                            //Create the new presence
-                            var pres = new ChatPresence
-                            {
-                                FromJid = new Jid(el.Attributes["from"].Value),
-                            };
-                            try
-                            {
-                                //Get the presence type
-                                pres.PresenceType =
-                                    (PresenceType) Enum.Parse(typeof(PresenceType), el.Attributes["type"].Value, true);
-                            }
-                            catch
-                            {
-                                //Ignored
-                            }
-
-                            //Handle more presence data
-                            foreach (var presData in el.ChildNodes)
-                            {
-                                var xmlPres = (XmlNode) presData;
-                                if (xmlPres.Name == "show")
-                                {
-                                    pres.PresenceShow = (PresenceShow) Enum.Parse(typeof(PresenceShow),
-                                        xmlPres.InnerText, true);
-                                }
-                                else if (xmlPres.Name == "status")
-                                {
-                                    pres.Status = System.Web.HttpUtility.HtmlDecode(xmlPres.InnerText);
-                                }
-                                else if (xmlPres.Name == "last_online")
-                                {
-                                    pres.LastOnline = xmlPres.InnerText;
-                                }
-                            }
-                        }
-                        catch
-                        {
-                            //Ignore for now
-                        }
+                        PresenceManager.HandleReceivedPresence(el);
                     }
 
                     #endregion XmppPresenceHandler
@@ -346,10 +277,13 @@ namespace IcyWind.Chat
                                 OnSuccessLogin?.Invoke();
 
                                 //Send another random static string
-                                var authStr =
-                                    Encoding.UTF8.GetBytes(
-                                        "<stream:stream to=\"pvp.net\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
-                                SslStream.Write(authStr);
+                                Client.SendString(
+                                    "<stream:stream " +
+                                    "to=\"pvp.net\" " +
+                                    "xml:lang=\"*\" " +
+                                    "version=\"1.0\" " +
+                                    "xmlns:stream=\"http://etherx.jabber.org/streams\" " +
+                                    "xmlns=\"jabber:client\">");
                             }
 
                             #endregion ConnectionSuccessHandler
