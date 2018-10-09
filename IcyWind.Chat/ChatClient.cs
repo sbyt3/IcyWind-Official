@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Security;
 using System.Net.Sockets;
@@ -11,24 +9,24 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using IcyWind.Chat.Auth;
+using IcyWind.Chat.TcpConnection;
 
 namespace IcyWind.Chat
 {
     public class ChatClient
     {
         #region ServerData
-        internal TcpClient Client { get; set; }
-        internal SslStream SslStream { get; set; }
-        internal IPEndPoint EndPoint { get; set; }
+        internal AuthHandler AuthHandler { get; set; }
+        internal TcpStringClient Client { get; set; }
         #endregion ServerData
 
         #region InternalVars
         internal int Id { get; set; }
-        internal string Server { get; set; } = "pvp.net";
-
         internal bool Disconnecting { get; set; }
         internal bool HasHandledAuth { get; set; } = false;
         internal string RsoToken { get; set; }
+        internal AuthCred AuthCred { get; private set; }
         #endregion InternalVars
         
         #region Delegates
@@ -94,47 +92,20 @@ namespace IcyWind.Chat
 
         public ChatClient(IPEndPoint endPoint)
         {
-            //Save the IP Address
-            EndPoint = endPoint;
-            //Create the TcpClient for sending data to the server
-            Client = new TcpClient {NoDelay = true};
-            //Set the socket option
-            Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-            Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
+            Client = new TcpStringClient(endPoint, true);
         }
 
-        public ChatClient(IPEndPoint endPoint, string server)
+        public ChatClient(IPEndPoint endPoint, bool ssl)
         {
-            //Same stuff
-            Disconnecting = false;
-            EndPoint = endPoint;
-            Server = server;
-            Client = new TcpClient { NoDelay = true };
-            Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.KeepAlive, true);
-            Client.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.NoDelay, true);
+            Client = new TcpStringClient(endPoint, ssl);
         }
 
-        public async Task Connect(string rso)
+        public async Task ConnectSSL(string host, AuthCred cred)
         {
-            //Set the RSO Token
-            RsoToken = rso;
-            Disconnecting = false;
-            //Connect to Server
-            await Client.ConnectAsync(EndPoint.Address, EndPoint.Port);
-            //Create the SslStream for talking to the rito gems server
-            SslStream = new SslStream(Client.GetStream(), true, (sender, certificate, chain, errors) => true);
-
-            //Start stream auth
-            SslStream.AuthenticateAsClient("pvp.net", null, SslProtocols.Tls, false);
-
-            //Handle when strings are recieved
-            RecieveString += ChatServer_RecieveString;
-            StartReadLoop();
-
-            //Send the connection string and start the read loop
-            var connection = Encoding.UTF8.GetBytes(
-                $"<stream:stream to=\"{Server}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
-            SslStream.Write(connection);
+            await Client.ConnectSSL(host);
+            Client.SendString(
+                $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
+            AuthCred = cred;
         }
         /// <summary>
         /// Lets you change the XMPP Presence
@@ -165,7 +136,7 @@ namespace IcyWind.Chat
             return $"<presence type=\"{ConvertPresenceType.ConvertPresenceTypeToString(pres)}\"><priority>0</priority><show>{ConvertPresenceShow.ConvertPresenceShowToString(show)}</show><status>{encodedXml}</status></presence>";
         }
 
-        public void JoinRoom(Jid roomJid, string password)
+        public ChatRoom JoinRoom(Jid roomJid, string password)
         {
             var roomJoinString = Encoding.UTF8.GetBytes(
                 $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
@@ -173,9 +144,11 @@ namespace IcyWind.Chat
                 $"<password>{password}</password>" +
                 "</x>" +
                 "</presence>");
+
+            return new ChatRoom(this, roomJid);
         }
 
-        public void JoinRoom(Jid roomJid)
+        public ChatRoom JoinRoom(Jid roomJid)
         {
             var roomJoinString = Encoding.UTF8.GetBytes(
                 $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
@@ -183,6 +156,8 @@ namespace IcyWind.Chat
                 "</presence>");
             SslStream.Write(roomJoinString);
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
+
+            return new ChatRoom(this, roomJid);
         }
 
         /// <summary>
@@ -202,23 +177,12 @@ namespace IcyWind.Chat
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
 
-        public void SendGroupChatMessage(Jid to, string message)
-        {
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
-            var messageSend =
-                Encoding.UTF8.GetBytes(
-                    $"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'groupchat\'><body>{encodedXml}</body></message>");
-            SslStream.Write(messageSend);
-            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
-        }
-
         /// <summary>
         /// Sends the disconnect packet
         /// </summary>
         public void Disconnect()
         {
-            var disStr = Encoding.UTF8.GetBytes( "</stream:stream>");
+            var disStr = Encoding.UTF8.GetBytes("</stream:stream>");
             SslStream.Write(disStr);
             Disconnecting = true;
         }
@@ -364,15 +328,10 @@ namespace IcyWind.Chat
 
                             #region AuthHandler
 
-                            if (xmlNode.Name == "mechanisms" && xmlNode.InnerText == "X-Riot-RSO")
+                            if (xmlNode.Name == "mechanisms")
                             {
-                                //This converts the rso string to bytes to send
-                                var authStr =
-                                    Encoding.UTF8.GetBytes(
-                                        $"<auth xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\" mechanism=\"X-Riot-RSO\">{RsoToken}</auth>");
-
-                                SslStream.Write(authStr);
-                                HandledRsoAuth?.Invoke(RsoToken);
+                                var authHandler = AuthHandler.GetSASLAuthHandler(xmlNode.InnerText);
+                                authHandler.HandleAuth();
                             }
 
                             #endregion AuthHandler
@@ -464,7 +423,7 @@ namespace IcyWind.Chat
                                         ? $"{DateTime.Now.Year - 1}-12-{DateTime.Now.Day}"
                                         : $"{DateTime.Now.Year}-{DateTime.Now.Month - 1}-{DateTime.Now.Day}";
 
-                                    //Retireve any former messages from the hisory of the archives
+                                    //Retrieve any former messages from the history of the archives
                                     SslStream.Write(Encoding.UTF8.GetBytes(
                                         $"<iq type=\"get\" id=\"recent_conv_req_4\" to=\"{MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:archive:list\">" +
                                         $"<since>{date} 00:00:00</since><count>10</count></query></iq>"));
@@ -489,13 +448,13 @@ namespace IcyWind.Chat
                                             //Create the JID
                                             var inJid = new Jid(itemRostNode.Attributes["jid"].Value)
                                             {
-                                                SumName = itemRostNode.Attributes["name"].Value
+                                                SumName = itemRostNode.Attributes["name"].Value,
+                                                Group = itemRostNode.HasChildNodes
+                                                    ? itemRostNode.FirstChild.InnerText
+                                                    : "**Default"
                                             };
 
                                             //If the user has a group print it, otherwise return **Default
-                                            inJid.Group = itemRostNode.HasChildNodes
-                                                ? itemRostNode.FirstChild.InnerText
-                                                : "**Default";
 
                                             //Send the jid
                                             OnRosterItemRecieved?.Invoke(inJid);
@@ -523,73 +482,6 @@ namespace IcyWind.Chat
             {
                 return false;
             }
-        }
-
-        public void StartReadLoop()
-        {
-            var t = new Thread(() =>
-            {
-                //Sometimes strings are sent fragmented. This stores the fragmented string
-                string fragStr = string.Empty;
-
-                //Create the data for the SslStream.Read
-                var buffer = new byte[2048];
-                var messageData = new StringBuilder();
-                var bytes = -1;
-
-                do
-                {
-                    if (Disconnecting)
-                        break;
-                    try
-                    {
-                        //Read
-                        bytes = SslStream.Read(buffer, 0, buffer.Length);
-
-                        //Decode that data
-                        var decoder = Encoding.UTF8.GetDecoder();
-                        var chars = new char[decoder.GetCharCount(buffer, 0, bytes)];
-                        decoder.GetChars(buffer, 0, bytes, chars, 0);
-                        messageData.Append(chars);
-
-                        //Temp, log the data
-                        Debugger.Log(0, "", messageData + "\n");
-                        //Make sure that the message actually has content, or just ignore it
-                        if (!string.IsNullOrWhiteSpace(messageData.ToString()))
-                        {
-                            //If the string ends with a > we know that it is is the end of the xmpp string that was received
-                            //If not, add it to the string fragment helper
-                            if (messageData.ToString().EndsWith(">"))
-                            {
-                                if (messageData.ToString().EndsWith(">"))
-                                {
-                                    if (RecieveString?.Invoke(fragStr + messageData) == true)
-                                    {
-                                        //Empty the string fragment helper for next time
-                                        fragStr = string.Empty;
-                                    }
-                                }
-                                else
-                                {
-                                    fragStr += messageData.ToString();
-                                }
-                            }
-                            else
-                            {
-                                fragStr += messageData.ToString();
-                            }
-                        }
-
-                        messageData.Clear();
-                    }
-                    catch
-                    {
-                        if (!Disconnecting)
-                            throw;
-                    }
-                } while (bytes != 0);
-            }) {Priority = ThreadPriority.AboveNormal};
-            t.Start();
         }
     }
 }

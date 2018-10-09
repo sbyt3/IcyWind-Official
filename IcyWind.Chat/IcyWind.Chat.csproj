@@ -50,13 +50,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auth\AuthCred.cs" />
+    <Compile Include="Auth\AuthHandler.cs" />
+    <Compile Include="Auth\AuthNotSupportedException.cs" />
+    <Compile Include="Auth\BaseAuth.cs" />
+    <Compile Include="Auth\XRiotRSO.cs" />
     <Compile Include="ChatClient.cs" />
+    <Compile Include="ChatRoom.cs" />
     <Compile Include="Jid.cs" />
     <Compile Include="Presence.cs" />
     <Compile Include="PresenceShow.cs" />
     <Compile Include="PresenceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TcpStringSocket.cs" />
+    <Compile Include="TcpConnection\TcpStringClient.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
