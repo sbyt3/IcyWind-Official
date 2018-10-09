@@ -24,10 +24,7 @@ namespace IcyWind.Chat
         {
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
-            var messageSend =
-                Encoding.UTF8.GetBytes(
-                    $"<message from=\'{_chatClient.MainJid.RawJid}\' to=\'{RoomJid.RawJid}\' type=\'groupchat\'><body>{encodedXml}</body></message>");
-            _chatClient.SslStream.Write(messageSend);
+            _chatClient.Client.SendString($"<message from=\'{_chatClient.MainJid.RawJid}\' to=\'{RoomJid.RawJid}\' type=\'groupchat\'><body>{encodedXml}</body></message>");
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
     }

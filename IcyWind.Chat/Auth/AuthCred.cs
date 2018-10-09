@@ -11,6 +11,7 @@ namespace IcyWind.Chat.Auth
     {
         public string Username { get; set; }
 
+        [Obsolete("Use the SecurePassword for added security")]
         public string Password { get; set; }
 
         public SecureString SecurePassword { get; set; }

@@ -14,6 +14,8 @@ namespace IcyWind.Chat.Auth
 
         public abstract void HandleAuth();
 
+        public abstract string AuthMethod { get; }
+
         protected BaseAuth(ChatClient client, AuthCred cred)
         {
             ChatClient = client;

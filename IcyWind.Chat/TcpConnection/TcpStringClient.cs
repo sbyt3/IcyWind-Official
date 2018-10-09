@@ -94,25 +94,21 @@ namespace IcyWind.Chat.TcpConnection
                     //Make sure that the message actually has content, or just ignore it
                     if (!string.IsNullOrWhiteSpace(messageData.ToString()))
                     {
-                        //If the string ends with a > we know that it is is the end of the xmpp string that was received
-                        //If not, add it to the string fragment helper
-                        if (messageData.ToString().EndsWith(">"))
+                        //If the buffer is full and does not end with '>' it must be a fragmented string
+                        if (messageData.Length == buffer.Length && !messageData.ToString().EndsWith(">"))
                         {
-                            if (messageData.ToString().EndsWith(">"))
+                            fragStr += messageData.ToString();
+                        }
+                        else
+                        {
+                            if (OnStringReceived?.Invoke(fragStr + messageData) == true)
                             {
-                                if (OnStringReceived?.Invoke(fragStr + messageData) == true)
-                                {
-                                    fragStr = string.Empty;
-                                }
+                                fragStr = string.Empty;
                             }
                             else
                             {
                                 fragStr += messageData.ToString();
                             }
-                        }
-                        else
-                        {
-                            fragStr += messageData.ToString();
                         }
                     }
 

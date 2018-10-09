@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IcyWind.Chat
+﻿namespace IcyWind.Chat.Presence
 {
-    public class Presence
+    public class ChatPresence
     {
         public Jid FromJid { get; internal set; }
         public PresenceType PresenceType { get; internal set; }

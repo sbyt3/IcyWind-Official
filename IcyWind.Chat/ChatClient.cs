@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using IcyWind.Chat.Auth;
+using IcyWind.Chat.Presence;
 using IcyWind.Chat.TcpConnection;
 
 namespace IcyWind.Chat
@@ -25,18 +26,11 @@ namespace IcyWind.Chat
         internal int Id { get; set; }
         internal bool Disconnecting { get; set; }
         internal bool HasHandledAuth { get; set; } = false;
-        internal string RsoToken { get; set; }
         internal AuthCred AuthCred { get; private set; }
+        public BaseAuth AuthMethod { get; private set; }
         #endregion InternalVars
         
         #region Delegates
-        /// <summary>
-        /// Used internally when a string is recieved from the server
-        /// </summary>
-        /// <param name="x"></param>
-        internal delegate bool RecString(string x);
-        internal event RecString RecieveString;
-
         /// <summary>
         /// Used to tell that the Auth string was sent. Sends the AuthToken
         /// </summary>
@@ -68,9 +62,9 @@ namespace IcyWind.Chat
         /// Got when a presence has been recieved.
         /// </summary>
         /// <param name="pres">The presence</param>
-        public delegate void OnPresence(Presence pres);
-        public event OnPresence OnPlayerPresenceRecieved;
-        public event OnPresence OnMobilePresenceRecieved;
+        public delegate void OnPresence(ChatPresence pres);
+        public event OnPresence OnPlayerPresenceReceived;
+        public event OnPresence OnMobilePresenceReceived;
 
         /// <summary>
         /// Called when a message is recieved
@@ -78,7 +72,7 @@ namespace IcyWind.Chat
         /// <param name="from">The user's JID</param>
         /// <param name="message">The message from that user</param>
         public delegate void OnMessage(Jid from, string message);
-        public event OnMessage OnMessageRecieved;
+        public event OnMessage OnMessageReceived;
         #endregion Delegates
 
         #region PublicVars
@@ -106,6 +100,12 @@ namespace IcyWind.Chat
             Client.SendString(
                 $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
             AuthCred = cred;
+        }
+
+        public bool AddSASLAuth(BaseAuth authMethod)
+        {
+            AuthMethod = authMethod;
+            return true;
         }
         /// <summary>
         /// Lets you change the XMPP Presence
@@ -218,13 +218,18 @@ namespace IcyWind.Chat
         /// <param name="x">The recieved string</param>
         private bool ChatServer_RecieveString(string x)
         {
+            if (x.Contains("</stream:stream>"))
+            {
+                //TODO: Handle a disconnect
+            }
             //Lazy hack, this converts the initial starting output to a valid XMP
-            if (x.Contains("<stream:stream"))
+            else if (x.Contains("<stream:stream"))
             {
                 x += "</stream:stream>";
             }
             //Lazy hack 2, This stops any stupid blah blah blah is not a part of this domain stuff
             x = x.Replace("stream:", "");
+
 
             try
             {
@@ -247,7 +252,7 @@ namespace IcyWind.Chat
                                 return true;
 
                             //Create the new presence
-                            var pres = new Presence
+                            var pres = new ChatPresence
                             {
                                 FromJid = new Jid(el.Attributes["from"].Value),
                             };
@@ -280,16 +285,6 @@ namespace IcyWind.Chat
                                     pres.LastOnline = xmlPres.InnerText;
                                 }
                             }
-
-                            //Handle if it should be mobile or a normal presence
-                            if (pres.PresenceShow == PresenceShow.Mobile)
-                            {
-                                OnMobilePresenceRecieved?.Invoke(pres);
-                            }
-                            else
-                            {
-                                OnPlayerPresenceRecieved?.Invoke(pres);
-                            }
                         }
                         catch
                         {
@@ -308,7 +303,8 @@ namespace IcyWind.Chat
                             if (el.Attributes["from"].Value == el.Attributes["to"].Value)
                                 return true;
 
-                            OnMessageRecieved?.Invoke(new Jid(el.Attributes["from"].Value), el.InnerText);
+                            //TODO: Add a message handler
+                            //OnMessageRecieved?.Invoke(new Jid(el.Attributes["from"].Value), el.InnerText);
                         }
                         catch
                         {
@@ -330,15 +326,17 @@ namespace IcyWind.Chat
 
                             if (xmlNode.Name == "mechanisms")
                             {
-                                var authHandler = AuthHandler.GetSASLAuthHandler(xmlNode.InnerText);
-                                authHandler.HandleAuth();
+                                if (AuthHandler.HandleAuth(xmlNode))
+                                {
+                                    break;
+                                }
                             }
 
                             #endregion AuthHandler
 
                             #region ConnectionSuccessHandler
 
-                            else if (el.Name == "success" && xmlNode.Name == "#text")
+                            if (el.Name == "success" && xmlNode.Name == "#text")
                             {
                                 //I have no idea why I did this, but I did it. Don't question me Wild
                                 if (int.TryParse(xmlNode.InnerText, out var output))
@@ -358,7 +356,7 @@ namespace IcyWind.Chat
 
                             #region IDontKnowWtfThisIsButReturnBinding
 
-                            else if (xmlNode.Name == "rxep")
+                            if (xmlNode.Name == "rxep")
                             {
                                 //This is sent from client to server after this is recieved. I honestly don't know this xmpp stuff so lets pretend we read that
                                 var resource =
@@ -374,7 +372,7 @@ namespace IcyWind.Chat
 
                             #region HandleSessionIQ
 
-                            else if (el.Name == "iq" && xmlNode.Name == "bind" && xmlNode.HasChildNodes)
+                            if (el.Name == "iq" && xmlNode.Name == "bind" && xmlNode.HasChildNodes)
                             {
                                 //Make sure that this is the correct IQ and stuff
                                 if (xmlNode.ChildNodes.Count == 1 &&
@@ -396,7 +394,7 @@ namespace IcyWind.Chat
 
                             #region SessionIQHandler
 
-                            else if (el.Name == "iq" && xmlNode.Name == "session")
+                            if (el.Name == "iq" && xmlNode.Name == "session")
                             {
                                 //Make sure that this is the correct thing
                                 if (xmlNode.ChildNodes.Count == 2 &&
@@ -434,7 +432,7 @@ namespace IcyWind.Chat
 
                             #region RosterIQ
 
-                            else if (el.Name == "iq" && el.HasAttribute("id") &&
+                            if (el.Name == "iq" && el.HasAttribute("id") &&
                                      el.Attributes["id"].InnerText == "rst_req_3")
                             {
                                 if (xmlNode.HasChildNodes)

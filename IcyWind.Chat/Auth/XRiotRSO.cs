@@ -8,14 +8,13 @@ namespace IcyWind.Chat.Auth
 {
     internal class XRiotRSO : BaseAuth
     {
-        public XRiotRSO(ChatClient client, AuthCred cred) : base(client, cred)
-        {
+        public override string AuthMethod => "X-Riot-RSO";
 
-        }
+        public XRiotRSO(ChatClient client) : base(client, client.AuthCred) { }
 
         public override void HandleAuth()
         {
-
+            ChatClient.Client.SendString($"<auth xmlns=\"urn:ietf:params:xml:ns:xmpp-sasl\" mechanism=\"{AuthMethod}\">{AuthCred.RSO}</auth>");
         }
     }
 }

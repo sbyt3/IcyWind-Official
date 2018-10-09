@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using IcyWind.Chat;
+using IcyWind.Chat.Presence;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic;
 using IcyWind.Core.Logic.IcyWind;
