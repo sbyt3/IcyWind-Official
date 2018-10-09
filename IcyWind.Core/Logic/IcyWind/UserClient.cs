@@ -8,6 +8,7 @@ using System.Timers;
 using System.Xml;
 using DotNetty.Transport.Channels;
 using IcyWind.Chat;
+using IcyWind.Chat.Presence;
 using IcyWind.Core.Logic.Data;
 using IcyWind.Core.Logic.Riot;
 using IcyWind.Core.Logic.Riot.Auth;
@@ -234,7 +235,7 @@ namespace IcyWind.Core.Logic.IcyWind
             findPlayer?.Messages.Add(new KeyValuePair<string, string>(jid.PlayerJid, message));
         }
 
-        public void OnPresRecieve(Presence pres)
+        public void OnPresRecieve(ChatPresence pres)
         {
             var findPlayer = Players.FirstOrDefault(x => x.JidAsString == pres.FromJid.PlayerJid);
             if (findPlayer != null)
@@ -267,7 +268,7 @@ namespace IcyWind.Core.Logic.IcyWind
             }
         }
 
-        public void OnMobilePresRecieve(Presence pres)
+        public void OnMobilePresRecieve(ChatPresence pres)
         {
             var findPlayer = Players.FirstOrDefault(x => x.JidAsString == pres.FromJid.PlayerJid);
             if (findPlayer != null)

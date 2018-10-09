@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IcyWind.Chat;
+using IcyWind.Chat.Presence;
 using IcyWind.Core.Logic;
 using IcyWind.Core.Logic.IcyWind;
 using IcyWind.Core.Logic.Riot.Compression;

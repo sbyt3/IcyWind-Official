@@ -231,7 +231,8 @@ namespace IcyWind.Core.Logic.Riot.Auth
 
                 sendPartyHelper = new BodyHelper
                 {
-                    body = JsonConvert.SerializeObject(party),
+                    body = "",
+                    method = "GET",
                     url = $"v1/parties/{userClient.Client.CurrentParty.Payload.CurrentParty.PartyId}/eligibility"
                 };
 

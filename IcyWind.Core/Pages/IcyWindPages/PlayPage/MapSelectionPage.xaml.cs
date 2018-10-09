@@ -56,20 +56,40 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
 
                 var name = QueueConverter.MapToName((Map) map);
 
-                var mapView = new MapView
+                if (name == "UnknownMap")
                 {
-                    NameLabel = {Content = name},
-                    MapImage =
+                    var mapView = new MapView
                     {
-                        Source = new BitmapImage(new Uri(System.IO.Path.Combine(StaticVars.IcyWindLocation,
-                            "IcyWindAssets", "Maps", $"map{map}.png")))
-                    },
-                    Tag = map
-                };
+                        NameLabel = { Content = name },
+                        MapImage =
+                        {
+                            Source = new BitmapImage(new Uri(System.IO.Path.Combine(StaticVars.IcyWindLocation,
+                                "IcyWindAssets", "Maps", $"map{map}.png")))
+                        },
+                        Tag = map
+                    };
 
-                mapView.MouseDown += MapView_MouseDown;
+                    mapView.MouseDown += MapView_MouseDown;
 
-                MapListView.Items.Add(mapView);
+                    MapListView.Items.Add(mapView);
+                }
+                else
+                {
+                    var mapView = new MapView
+                    {
+                        NameLabel = { Content = name },
+                        MapImage =
+                        {
+                            Source = new BitmapImage(new Uri(System.IO.Path.Combine(StaticVars.IcyWindLocation,
+                                "IcyWindAssets", "Maps", $"map{map}.png")))
+                        },
+                        Tag = map
+                    };
+
+                    mapView.MouseDown += MapView_MouseDown;
+
+                    MapListView.Items.Add(mapView);
+                }
             }
 
         }
@@ -107,7 +127,7 @@ namespace IcyWind.Core.Pages.IcyWindPages.PlayPage
 
             if (e.Source is Button butt)
             {
-                if ((int) butt.Tag != 430)
+                if ((int) butt.Tag != 430 && (int)butt.Tag != 830)
                 {
                     UserInterfaceCore.HolderPage.ShowNotification(UserInterfaceCore.ShortNameToString("NotFinishedFeature"));
                     return;

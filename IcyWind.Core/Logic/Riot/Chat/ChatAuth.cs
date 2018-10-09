@@ -8,6 +8,7 @@ using System.Net;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using IcyWind.Chat;
+using IcyWind.Chat.Presence;
 
 namespace IcyWind.Core.Logic.Riot.Chat
 {
@@ -23,10 +24,10 @@ namespace IcyWind.Core.Logic.Riot.Chat
 
             chat.GetChatPresence += () => chat.PresenceAsString(client.GetPresence(), PresenceType.Available, PresenceShow.Chat);
             chat.OnRosterItemRecieved += client.OnRostRecieve;
-            chat.OnPlayerPresenceRecieved += client.OnPresRecieve;
+            chat.OnPlayerPresenceReceived += client.OnPresRecieve;
             chat.OnMobilePresenceRecieved += client.OnMobilePresRecieve;
             chat.OnMessageRecieved += client.OnMessage;
-            await chat.Connect(rsoToken);
+            await chat.Connect("pvp.net");
             client.XmppClient = chat;
         }
     }
