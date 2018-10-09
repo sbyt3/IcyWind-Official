@@ -24,38 +24,40 @@ namespace IcyWind.Chat.Iq
         {
             #region HandleSessionIQ
 
-            if (xmlNode.Name == "bind" && xmlNode.HasChildNodes)
+            switch (xmlNode.Name)
             {
-                //Make sure that this is the correct IQ and stuff
-                if (xmlNode.ChildNodes.Count == 1 &&
-                    xmlNode.FirstChild.Name == "jid")
+                case "bind" when xmlNode.HasChildNodes:
                 {
-                    ChatClient.MainJid = new UserJid(xmlNode.InnerText)
+                    //Make sure that this is the correct IQ and stuff
+                    if (xmlNode.ChildNodes.Count == 1 &&
+                        xmlNode.FirstChild.Name == "jid")
                     {
-                        Type = JidType.FriendChatJid,
-                    };
+                        ChatClient.MainJid = new UserJid(xmlNode.InnerText)
+                        {
+                            Type = JidType.FriendChatJid,
+                        };
 
-                    ChatClient.TcpClient.SendString("<iq type=\"set\" id=\"1\"><session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\"/></iq>");
+                        ChatClient.TcpClient.SendString("<iq type=\"set\" id=\"1\"><session xmlns=\"urn:ietf:params:xml:ns:xmpp-session\"/></iq>");
+                    }
+
+                    return true;
                 }
-            }
-
-            #endregion HandleSessionIQ
-
-            #region SessionIQHandler
-
-            if (xmlNode.Name == "session")
-            {
-                //Make sure that this is the correct thing
-                if (xmlNode.ChildNodes.Count == 2 &&
-                    xmlNode.LastChild.Name == "summoner_name")
+                case "session":
                 {
+                    //Make sure that this is the correct thing
+                    if (xmlNode.ChildNodes.Count != 2 || xmlNode.LastChild.Name != "summoner_name")
+                        return true;
+
                     ChatClient.MainJid.SumName = xmlNode.LastChild.InnerText;
 
+                    //TODO: Handle Presence
+                    /*
                     if (!string.IsNullOrEmpty(presence))
                     {
                         //Write the presence to all clients
-                        ChatClient.Client.SendString(presence);
+                        ChatClient.TcpClient.SendString(presence);
                     }
+                    //*/
 
                     //Request roster and priv_req (I think this is friend requests)
                     ChatClient.TcpClient.SendString(
@@ -72,50 +74,57 @@ namespace IcyWind.Chat.Iq
                     ChatClient.TcpClient.SendString(
                         $"<iq type=\"get\" id=\"recent_conv_req_4\" to=\"{ChatClient.MainJid.PlayerJid}\"><query xmlns=\"jabber:iq:riotgames:archive:list\">" +
                         $"<since>{date} 00:00:00</since><count>10</count></query></iq>");
+
+                    return true;
                 }
             }
+
+            #endregion HandleSessionIQ
+
+            #region SessionIQHandler
 
             #endregion SessionIQHandler
 
             #region RosterIQ
 
-            if (el.HasAttribute("id") &&
-                     el.Attributes["id"].InnerText == "rst_req_3")
+            if (!el.HasAttribute("id") || el.Attributes["id"].InnerText != "rst_req_3")
+                return false;
+            if (!xmlNode.HasChildNodes)
+                return true;
+            foreach (var itemNode in xmlNode.ChildNodes)
             {
-                if (xmlNode.HasChildNodes)
+                var itemRosterItemNode = (XmlNode)itemNode;
+
+                try
                 {
-                    foreach (var itemNode in xmlNode.ChildNodes)
+                    //Create the JID
+                    if (itemRosterItemNode.Attributes != null)
                     {
-                        var itemRostNode = (XmlNode)itemNode;
-
-                        try
+                        var inJid = new UserJid(itemRosterItemNode.Attributes["jid"].Value)
                         {
-                            //Create the JID
-                            var inJid = new UserJid(itemRostNode.Attributes["jid"].Value)
-                            {
-                                SumName = itemRostNode.Attributes["name"].Value,
-                                Group = itemRostNode.HasChildNodes
-                                    ? itemRostNode.FirstChild.InnerText
-                                    : "**Default",
-                                Type = JidType.FriendChatJid,
-                            };
+                            SumName = itemRosterItemNode.Attributes["name"].Value,
+                            Group = itemRosterItemNode.HasChildNodes
+                                ? itemRosterItemNode.FirstChild.InnerText
+                                : "**Default",
+                            Type = JidType.FriendChatJid,
+                        };
 
-                            //If the user has a group print it, otherwise return **Default
+                        //If the user has a group print it, otherwise return **Default
 
-                            //Send the jid
-                            OnRosterItemRecieved?.Invoke(inJid);
-                        }
-                        catch
-                        {
-                            // Don't know if we find attr
-                        }
+                        //Send the jid
+                        //OnRosterItemRecieved?.Invoke(inJid);
                     }
+                }
+                catch
+                {
+                    // Don't know if we find attr
                 }
             }
 
+            return true;
+
             #endregion RosterIQ
 
-            return true;
         }
     }
 }
