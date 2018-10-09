@@ -222,7 +222,7 @@ namespace IcyWind.Chat
             {
                 //TODO: Handle a disconnect
             }
-            //Lazy hack, this converts the initial starting output to a valid XMP
+            //Lazy hack, this converts the initial starting output to a valid XML doc
             else if (x.Contains("<stream:stream"))
             {
                 x += "</stream:stream>";
