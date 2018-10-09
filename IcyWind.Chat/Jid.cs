@@ -8,6 +8,38 @@ namespace IcyWind.Chat
 {
     public class Jid
     {
+        public static bool operator== (Jid orgJid, Jid compJid)
+        {
+            return orgJid.PlayerJid == compJid.PlayerJid;
+        }
+
+        public static bool operator!= (Jid orgJid, Jid compJid)
+        {
+            return orgJid.PlayerJid != compJid.PlayerJid;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Jid compJid)
+            {
+                if (this == compJid)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return RawJid;
+        }
+
         public string RawJid { get; }
 
         public string PlayerJid { get; }
@@ -36,5 +68,12 @@ namespace IcyWind.Chat
                 PlayerJid = rJid;
             }
         }
+    }
+
+    internal enum JidSourceType
+    {
+        FriendChatJid,
+        GroupChatJid,
+        UnknownJid,
     }
 }
