@@ -65,6 +65,8 @@
     </Compile>
     <Compile Include="Injector\InjectDX9.cs" />
     <Compile Include="Injector\Kernal32Native.cs" />
+    <Compile Include="InjectSocket\InjectSocket.cs" />
+    <Compile Include="InjectSocket\NonLoopbackIPAddressException.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
