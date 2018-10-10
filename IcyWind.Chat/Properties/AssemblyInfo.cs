@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("IcyWind.Chat")]
-[assembly: AssemblyCopyright("Copyright © Edward Vo 2018")]
+[assembly: AssemblyCopyright("Copyright © IcyWind Software 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
