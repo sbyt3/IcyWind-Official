@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using IcyWind.Injector.Injector;
-
-namespace IcyWind.ExtScript.Injector
+﻿namespace IcyWind.Injector.Injector
 {
     // ReSharper disable once InconsistentNaming
     public class InjectDX9
     {
+        /*
         public Process TargetProcess { get; }
         public IntPtr ProcHandle { get; private set; }
 
@@ -56,5 +48,6 @@ namespace IcyWind.ExtScript.Injector
 
             return true;
         }
+        //*/
     }
 }

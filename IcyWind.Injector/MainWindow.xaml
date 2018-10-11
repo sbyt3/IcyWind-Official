@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IcyWind.Injector"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="IcyWind.Injector" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="OpenDll" Content="Open dll" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Width="75" Click="OpenDll_OnClick"/>
+        <Button x:Name="Inject" Content="Inject" HorizontalAlignment="Right" Margin="0,10,90,0" VerticalAlignment="Top" Width="75" Click="Inject_OnClick"/>
+        <DataGrid x:Name="Processes" HorizontalAlignment="Stretch" Margin="0,35,0,0" 
+                  VerticalAlignment="Stretch" AutoGenerateColumns="False" CanUserAddRows="False" 
+                  ItemsSource="{Binding}" CanUserDeleteRows="False" SelectionMode="Single">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Process Name" MinWidth="400" Binding="{Binding PName}"/>
+                <DataGridTextColumn Header="Process Id" Binding="{Binding PId}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="UpdateProcesses" Content="Refresh" HorizontalAlignment="Right" Margin="0,10,170,0" VerticalAlignment="Top" Width="75" Click="UpdateProcesses_OnClick"/>
+
     </Grid>
 </Window>
