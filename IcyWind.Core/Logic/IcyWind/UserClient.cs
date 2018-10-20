@@ -220,7 +220,7 @@ namespace IcyWind.Core.Logic.IcyWind
             if (!IsConnectedToRtmp)
                 return;
             //Refresh token
-            Token = RiotAuth.GetLoginToken(OpenId, Token.AccessTokenJson.RefreshToken, RegionData);
+            Token = RiotAuth.RefreshLoginToken(OpenId, Token.AccessTokenJson.RefreshToken, RegionData);
 
             Debugger.Log(0, "", "FuckBeat\n");
             //This should return 5

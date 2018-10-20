@@ -359,7 +359,7 @@ namespace IcyWind.Core.Logic.Riot.Auth
                 : new RiotAuthToken(RiotAuthResult.UnknownReason, null, dsid, regionData);
         }
 
-        public static RiotAuthToken GetLoginToken(RiotAuthOpenIdConfiguration openId, string refreshToken, RegionData regionData)
+        public static RiotAuthToken RefreshLoginToken(RiotAuthOpenIdConfiguration openId, string refreshToken, RegionData regionData)
         {
             var dsid = Guid.NewGuid().ToString("N");
 
