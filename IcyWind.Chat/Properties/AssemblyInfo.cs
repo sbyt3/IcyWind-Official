@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("IcyWind.Chat")]
 [assembly: AssemblyDescription("XMPP Chat Client for RitoGems Technology")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("IcyWind Software")]
 [assembly: AssemblyProduct("IcyWind.Chat")]
 [assembly: AssemblyCopyright("Copyright © IcyWind Software 2018")]
 [assembly: AssemblyTrademark("")]

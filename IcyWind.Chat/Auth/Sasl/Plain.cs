@@ -38,7 +38,7 @@ namespace IcyWind.Chat.Auth.Sasl
 #pragma warning restore 618
             }
             //Send the string to the server
-            ChatClient.TcpClient.SendString($"<sasl:auth mechanism=\'PLAIN\'>{sb}</sasl:auth>");
+            ChatClient.TcpClient.SendString($"<sasl:auth mechanism=\'{AuthMethod}\'>{sb}</sasl:auth>");
             sb.Clear();
             // ReSharper disable once RedundantAssignment
             sb = null;
