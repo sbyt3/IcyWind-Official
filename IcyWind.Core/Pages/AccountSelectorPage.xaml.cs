@@ -143,8 +143,7 @@ namespace IcyWind.Core.Pages
         {
             try
             {
-                //TODO: Create a login bypass -bpz
-                var username = LoginUsernameBox.Text;
+                var username = LoginUsernameBox.Text.ToLower();
                 var password = LoginPasswordBox.Password;
                 var regionData = RiotClientData.ReadSystemRegionData(Path.Combine(StaticVars.IcyWindLocation, "IcyWindAssets", "system", "system.yaml"), RegionComboBox.SelectedValue.ToString());
                 var region = RegionComboBox.SelectedValue.ToString();

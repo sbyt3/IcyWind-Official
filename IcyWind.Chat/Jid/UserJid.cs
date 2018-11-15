@@ -49,7 +49,7 @@ namespace IcyWind.Chat.Jid
 
         public JidType Type { get; internal set; } = JidType.UnknownJid;
 
-        public UserJid(string rJid)
+        internal UserJid(string rJid)
         {
             RawJid = rJid;
             if (rJid.Contains("/"))
