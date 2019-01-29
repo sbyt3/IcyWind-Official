@@ -1,5 +1,7 @@
 # IcyWind
-Current Status: Finalizing features. Almost ready for beta testing
+I'll probably push the SRC soon but honestly I am lazy so this is what you will get. I will also update the download link someday. 
+
+How to be Lazy 101
 
 Join the official discord: https://discord.gg/veYtxju
 
