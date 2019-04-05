@@ -1,9 +1,11 @@
 # IcyWind
-I'll probably push the SRC soon but honestly I am lazy so this is what you will get. I will also update the download link someday. 
-
-How to be Lazy 101
+Current Status: FUCK
 
 Join the official discord: https://discord.gg/veYtxju
+
+##### IcyWindLite is only paid
+
+IcyWind Lite is a "brower based" league of legends client, taking the load off of your computer.
 
 #### Warning: If you forget your password, all saved accounts will be removed. There is no possible way to recover account passwords and the leauge of legends account credentials that are stored on the server. You should also create a strong UNIQUE password for IcyWind (Use a password manager) as IcyWind acts like a password manager
 
@@ -26,6 +28,8 @@ I will not push code until most of it works. Thank you for waiting.
 Do not advertise IcyWind
 
 IcyWind's Icon is not attached in this project, but it will be in the compiled version due to licencing of the icon
+
+This software is not to be used in Australia
 
 # Questions you may have
 ### I wanna help out. How can I help?
