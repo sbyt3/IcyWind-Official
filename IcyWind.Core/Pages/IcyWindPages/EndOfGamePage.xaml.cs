@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Threading;
 using IcyWind.Chat;
 using IcyWind.Chat.Jid;
+using IcyWind.Chat.Messages;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic.IcyWind;
 using IcyWind.Core.Logic.Riot.com.riotgames.platform.statistics;
@@ -32,13 +33,13 @@ namespace IcyWind.Core.Pages.IcyWindPages
     public partial class EndOfGamePage : UserControl
     {
         private string MatchStatsOnline;
-        private readonly UserJid _roomJid;
+
+        private ChatRoom chatRoom;
 
         public EndOfGamePage(EndOfGameStats stats)
         {
             InitializeComponent();
-            _roomJid = new UserJid(stats.RoomName + "@sec.pvp.net");
-            StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid, stats.RoomPassword);
+            chatRoom = StaticVars.ActiveClient.XmppClient.MessageManager.JoinRoom(stats.RoomName + "@sec.pvp.net", stats.RoomPassword);
             StaticVars.ActiveClient.XmppClient.OnMessageRecieved += OnMessage;
             Dispatcher.BeginInvoke(DispatcherPriority.Render, (Action) (() =>
             {

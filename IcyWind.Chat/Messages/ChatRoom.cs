@@ -6,6 +6,7 @@ using System.Net.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static IcyWind.Chat.Messages.MessageManager;
 
 namespace IcyWind.Chat.Messages
 {
@@ -15,10 +16,21 @@ namespace IcyWind.Chat.Messages
 
         private ChatClient ChatClient { get; }
 
+        public event OnMessageRecieved OnMessage;
+
         internal ChatRoom(ChatClient chatClient, UserJid roomJid)
         {
             ChatClient = chatClient;
             RoomJid = roomJid;
+            ChatClient.MessageManager.OnMessageInternal += MessageManager_OnMessageInternal;
+        }
+
+        private void MessageManager_OnMessageInternal(UserJid toJid, UserJid fromJid, string msg)
+        {
+            if (toJid == RoomJid)
+            {
+                OnMessage?.Invoke(toJid, fromJid, msg);
+            }
         }
 
         public void SendRoomMessage(string message)

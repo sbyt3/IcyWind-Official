@@ -13,6 +13,13 @@ namespace IcyWind.Chat.Messages
     {
         internal ChatClient ChatClient { get; }
 
+        public delegate void OnMessageRecieved(UserJid toJid, UserJid fromJid, string msg);
+        public event OnMessageRecieved OnMessage;
+        public event OnMessageRecieved OnUnknownMessage;
+
+        internal event OnMessageRecieved OnMessageInternal;
+
+
         internal MessageManager(ChatClient client)
         {
             ChatClient = client;
@@ -22,10 +29,37 @@ namespace IcyWind.Chat.Messages
             try
             {
                 var fromUserString = el.Attributes["from"].Value;
-                if (!string.IsNullOrWhiteSpace(fromUserString))
+                var toUserString = el.Attributes["from"].Value;
+                if (!string.IsNullOrWhiteSpace(fromUserString) && !string.IsNullOrWhiteSpace(toUserString))
                 {
                     var fromJid = new UserJid(fromUserString);
+                    var toJid = new UserJid(fromUserString);
                     //el.InnerText is the message
+
+                    if (toJid == ChatClient.MainJid)
+                    {
+                        if (OnMessage != null)
+                        {
+                            OnMessage(toJid, fromJid, el.InnerText);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (OnMessage != null)
+                        {
+                            OnMessageInternal(toJid, fromJid, el.InnerText);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             catch
