@@ -27,7 +27,7 @@ namespace IcyWind.Core.Logic.Riot.Chat
             chat.OnPlayerPresenceReceived += client.OnPresRecieve;
             chat.OnMobilePresenceRecieved += client.OnMobilePresRecieve;
             chat.OnMessageRecieved += client.OnMessage;
-            await chat.Connect("pvp.net");
+            await chat.ConnectSSL("pvp.net");
             client.XmppClient = chat;
         }
     }

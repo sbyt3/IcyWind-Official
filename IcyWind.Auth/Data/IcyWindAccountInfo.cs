@@ -27,7 +27,7 @@ namespace IcyWind.Auth.Data
         /// <summary>
         /// The accounts the user has (Must decode)
         /// </summary>
-        public IcyWindRiotAccountCrypted Accounts { get; set; }
+        public string Accounts { get; set; }
 
         /// <summary>
         /// The rank of the user

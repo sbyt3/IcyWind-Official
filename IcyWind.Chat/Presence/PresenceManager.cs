@@ -9,7 +9,7 @@ namespace IcyWind.Chat.Presence
         public ChatPresence Presence { get; private set; }
         internal ChatClient ChatClient { get; }
 
-        public PresenceManager(ChatClient client)
+        internal PresenceManager(ChatClient client)
         {
             ChatClient = client;
         }

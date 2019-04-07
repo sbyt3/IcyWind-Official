@@ -40,8 +40,14 @@ namespace IcyWind.Chat.Auth.Sasl
             //Send the string to the server
             ChatClient.TcpClient.SendString($"<sasl:auth mechanism=\'{AuthMethod}\'>{sb}</sasl:auth>");
             sb.Clear();
-            // ReSharper disable once RedundantAssignment
+
+#pragma warning disable IDE0059 // Value assigned to symbol is never used
             sb = null;
+#pragma warning restore IDE0059 // Value assigned to symbol is never used
+
+            //Nuke any data we don't need to be sure we have nuked the password in the
+            //StringBuilder
+            GC.Collect();
         }
     }
 }

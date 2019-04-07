@@ -61,11 +61,12 @@
     <Compile Include="Auth\Sasl\Plain.cs" />
     <Compile Include="Auth\Sasl\XRiotRSO.cs" />
     <Compile Include="ChatClient.cs" />
-    <Compile Include="ChatRoom.cs" />
+    <Compile Include="Messages\ChatRoom.cs" />
     <Compile Include="Iq\IqHandler.cs" />
     <Compile Include="Jid\InvalidJidException.cs" />
     <Compile Include="Jid\InvalidJidTypeException.cs" />
     <Compile Include="Jid\UserJid.cs" />
+    <Compile Include="Messages\MessageManager.cs" />
     <Compile Include="Presence\ChatPresence.cs" />
     <Compile Include="Presence\PresenceShow.cs" />
     <Compile Include="Presence\PresenceType.cs" />

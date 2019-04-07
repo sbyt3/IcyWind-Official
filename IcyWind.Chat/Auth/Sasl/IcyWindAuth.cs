@@ -36,9 +36,15 @@ namespace IcyWind.Chat.Auth.Sasl
                                          $"mechanism=\"{AuthMethod}\">{sb}</auth>");
 
             sb.Clear();
-            // ReSharper disable once RedundantAssignment
+
             //This is done to clear memory
+#pragma warning disable IDE0059 // Value assigned to symbol is never used
             sb = null;
+#pragma warning restore IDE0059 // Value assigned to symbol is never used
+
+            //Nuke any data we don't need to be sure we have nuked the password in the
+            //StringBuilder
+            GC.Collect();
         }
     }
 }

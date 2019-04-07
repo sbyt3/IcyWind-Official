@@ -25,6 +25,7 @@ using System.Xml;
 using IcyWind.Chat.Auth;
 using IcyWind.Chat.Iq;
 using IcyWind.Chat.Jid;
+using IcyWind.Chat.Messages;
 using IcyWind.Chat.Presence;
 using IcyWind.Chat.TcpConnection;
 
@@ -33,18 +34,59 @@ namespace IcyWind.Chat
     public class ChatClient
     {
         #region XMPPClientData
+        /// <summary>
+        /// Handles authentication
+        /// </summary>
         internal AuthHandler AuthHandler { get; set; }
+
+        /// <summary>
+        /// Basically anything TCP this does all the fuckery
+        /// </summary>
         internal TcpStringClient TcpClient { get; set; }
+
+        /// <summary>
+        /// Handles presence
+        /// </summary>
         public PresenceManager PresenceManager { get; internal set; }
+
+        /// <summary>
+        /// Manages messages
+        /// </summary>
+        public MessageManager MessageManager { get; internal set; }
+
+        /// <summary>
+        /// Handles Iq (whatever that is)
+        /// </summary>
         public IqHandler IqManager { get; internal set; }
         #endregion XMPPClientData
 
         #region InternalVars
+        /// <summary>
+        /// Idk what this does. Ask WildBook
+        /// </summary>
         internal int Id { get; set; }
+
+        /// <summary>
+        /// Represents of the client is disconnecting
+        /// </summary>
         internal bool Disconnecting { get; set; }
+
+        /// <summary>
+        /// Represents if authentication has happened
+        /// </summary>
         internal bool HasHandledAuth { get; set; } = false;
+
+        /// <summary>
+        /// Represents authentication credentials to pass to the server
+        /// </summary>
         internal AuthCred AuthCred { get; private set; }
+
+        /// <summary>
+        /// Represents the auth method that will be used (override)
+        /// </summary>
         public BaseAuth AuthMethod { get; private set; }
+
+        internal string Host { get; private set; }
         #endregion InternalVars
         
         #region Delegates
@@ -72,11 +114,28 @@ namespace IcyWind.Chat
             TcpClient = new TcpStringClient(endPoint, ssl);
         }
 
+        [Obsolete("This method does not support SSL. Consider using ConnectSSL")]
+        public async Task Connect(string host, AuthCred cred)
+        {
+            PresenceManager = new PresenceManager(this);
+            IqManager = new IqHandler(this);
+            MessageManager = new MessageManager(this);
+
+            await TcpClient.Connect(host);
+            Host = host;
+            TcpClient.SendString(
+                $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
+            AuthCred = cred;
+        }
+
         public async Task ConnectSSL(string host, AuthCred cred)
         {
             PresenceManager = new PresenceManager(this);
             IqManager = new IqHandler(this);
+            MessageManager = new MessageManager(this);
+
             await TcpClient.ConnectSSL(host);
+            Host = host;
             TcpClient.SendString(
                 $"<stream:stream to=\"{host}\" xml:lang=\"*\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">");
             AuthCred = cred;
@@ -86,53 +145,6 @@ namespace IcyWind.Chat
         {
             AuthMethod = authMethod;
             return true;
-        }
-
-        public ChatRoom JoinRoom(UserJid roomJid, string password)
-        {
-            if (roomJid.Type != JidType.GroupChatJid)
-            {
-                throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
-            }
-
-            TcpClient.SendString(
-                $"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
-                "<x xmlns=\'http://jabber.org/protocol/muc\'>" +
-                $"<password>{password}</password>" +
-                "</x>" +
-                "</presence>");
-
-            return new ChatRoom(this, roomJid);
-        }
-
-        public ChatRoom JoinRoom(UserJid roomJid)
-        {
-            if (roomJid.Type != JidType.GroupChatJid)
-            {
-                throw new InvalidJidTypeException("To join a room, the Jid must be a type of GroupChat");
-            }
-
-            TcpClient.SendString($"<presence from=\'{MainJid.RawJid}\' to=\'{roomJid.RawJid}\'>" +
-                              "<x xmlns=\'http://jabber.org/protocol/muc\'/>" +
-                              "</presence>");
-            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
-
-            return new ChatRoom(this, roomJid);
-        }
-
-        /// <summary>
-        /// Send a message to a user
-        /// </summary>
-        /// <param name="to">The user's Jid you want to send the message to</param>
-        /// <param name="message">The message to send</param>
-        public void SendMessage(UserJid to, string message)
-        {
-            //Set to high priority
-            Thread.CurrentThread.Priority = ThreadPriority.Highest;
-            var encodedXml = System.Web.HttpUtility.HtmlEncode(message);
-
-            TcpClient.SendString($"<message from=\'{MainJid.RawJid}\' to=\'{to.RawJid}\' type=\'chat\'><body>{encodedXml}</body></message>");
-            Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
         }
 
         /// <summary>
@@ -162,7 +174,6 @@ namespace IcyWind.Chat
             //Lazy hack 2, This stops any stupid blah blah blah is not a part of this domain stuff
             x = x.Replace("stream:", "");
 
-
             try
             {
                 //The XML Reader
@@ -186,18 +197,7 @@ namespace IcyWind.Chat
 
                     else if (el.Name == "message" && el.HasChildNodes)
                     {
-                        try
-                        {
-                            if (el.Attributes["from"].Value == el.Attributes["to"].Value)
-                                return true;
-
-                            //TODO: Add a message handler
-                            //OnMessageRecieved?.Invoke(new Jid(el.Attributes["from"].Value), el.InnerText);
-                        }
-                        catch
-                        {
-                            //Ignore for now
-                        }
+                        MessageManager.HandleMessage(el);
                     }
 
                     #endregion XmppMessageRecieveHandler
@@ -236,7 +236,7 @@ namespace IcyWind.Chat
                                 //Send another random static string
                                 TcpClient.SendString(
                                     "<stream:stream " +
-                                    "to=\"pvp.net\" " +
+                                    $"to=\"{Host}\" " +
                                     "xml:lang=\"*\" " +
                                     "version=\"1.0\" " +
                                     "xmlns:stream=\"http://etherx.jabber.org/streams\" " +
