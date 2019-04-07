@@ -4,20 +4,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using IcyWind.Chat;
 using IcyWind.Chat.Jid;
+using IcyWind.Chat.Messages;
 using IcyWind.Core.Controls;
 using IcyWind.Core.Logic;
 using IcyWind.Core.Logic.IcyWind;
@@ -50,6 +46,8 @@ namespace IcyWind.Core.Pages.IcyWindPages
         private Dictionary<string, Page> runePage;
         private int _timeLeft;
         private int _queueId;
+
+        private ChatRoom Room;
 
         public ChampionSelectPage(PartyPhaseMessage message)
         {
@@ -177,8 +175,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
                     await StaticVars.ActiveClient.RiotProxyCalls.DoLcdsProxyCall("teambuilder-draft",
                         "updateInventoryV1", $"{{\"simplifiedInventoryJwt\":\"{StaticVars.ActiveClient.InvToken}\"}}");
 
-                    _roomJid = new UserJid(message.ChampionSelectState.TeamChatRoomId + "@champ-select.pvp.net");
-                    StaticVars.ActiveClient.XmppClient.JoinRoom(_roomJid);
+                    Room = StaticVars.ActiveClient.XmppClient.MessageManager.JoinRoom(message.ChampionSelectState.TeamChatRoomId + "@champ-select.pvp.net");
                     StaticVars.ActiveClient.XmppClient.OnMessageRecieved += OnMessage;
                     var t = new Timer
                     {
@@ -196,7 +193,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
 
                     if (!string.IsNullOrWhiteSpace(StaticVars.ActiveClient.InstaCall))
                     {
-                        StaticVars.ActiveClient.XmppClient.SendGroupChatMessage(_roomJid, StaticVars.ActiveClient.InstaCall);
+                        Room.SendRoomMessage(StaticVars.ActiveClient.InstaCall);
                         StaticVars.ActiveClient.InstaCall = string.Empty;
                     }
 
@@ -330,7 +327,7 @@ namespace IcyWind.Core.Pages.IcyWindPages
         {
             if (e.Key == Key.Enter)
             {
-                StaticVars.ActiveClient.XmppClient.SendGroupChatMessage(_roomJid, SendText.Text);
+                Room.SendRoomMessage(SendText.Text);
                 AppendText("You: ", Brushes.DarkOrchid);
                 AppendText(SendText.Text, Brushes.Black);
                 AppendText(Environment.NewLine, Brushes.Black);

@@ -68,6 +68,11 @@ namespace IcyWind.Chat.Messages
             return new ChatRoom(ChatClient, roomJid);
         }
 
+        public ChatRoom JoinRoom(string roomJid, string password)
+        {
+            return JoinRoom(new UserJid(roomJid) { Type = JidType.GroupChatJid }, password);
+        }
+
         public ChatRoom JoinRoom(UserJid roomJid)
         {
             if (roomJid.Type != JidType.GroupChatJid)
@@ -81,6 +86,11 @@ namespace IcyWind.Chat.Messages
             Thread.CurrentThread.Priority = ThreadPriority.AboveNormal;
 
             return new ChatRoom(ChatClient, roomJid);
+        }
+
+        public ChatRoom JoinRoom(string roomJid)
+        {
+            return JoinRoom(new UserJid(roomJid) { Type = JidType.GroupChatJid });
         }
     }
 }

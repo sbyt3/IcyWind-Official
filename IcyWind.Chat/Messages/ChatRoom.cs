@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IcyWind.Chat.Jid;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Security;
@@ -10,11 +11,11 @@ namespace IcyWind.Chat.Messages
 {
     public class ChatRoom
     {
-        public Jid.UserJid RoomJid { get; }
+        public UserJid RoomJid { get; }
 
         private ChatClient ChatClient { get; }
 
-        internal ChatRoom(ChatClient chatClient, Jid.UserJid roomJid)
+        internal ChatRoom(ChatClient chatClient, UserJid roomJid)
         {
             ChatClient = chatClient;
             RoomJid = roomJid;

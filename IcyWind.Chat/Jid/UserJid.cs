@@ -4,6 +4,25 @@ namespace IcyWind.Chat.Jid
 {
     public class UserJid
     {
+        internal UserJid(string rJid)
+        {
+            RawJid = rJid;
+            if (rJid.Contains("/"))
+            {
+                var data = rJid.Split('/');
+                if (data.Length >= 2)
+                {
+                    Extra = data[1];
+                }
+
+                PlayerJid = data.First();
+            }
+            else
+            {
+                PlayerJid = rJid;
+            }
+        }
+
         public static bool operator== (UserJid orgJid, UserJid compJid)
         {
             return orgJid != null && (compJid != null && orgJid.PlayerJid == compJid.PlayerJid);
@@ -48,25 +67,6 @@ namespace IcyWind.Chat.Jid
         public string Group { get; internal set; }
 
         public JidType Type { get; internal set; } = JidType.UnknownJid;
-
-        internal UserJid(string rJid)
-        {
-            RawJid = rJid;
-            if (rJid.Contains("/"))
-            {
-                var data = rJid.Split('/');
-                if (data.Length >= 2)
-                {
-                    Extra = data[1];
-                }
-
-                PlayerJid = data.First();
-            }
-            else
-            {
-                PlayerJid = rJid;
-            }
-        }
     }
 
     public enum JidType
