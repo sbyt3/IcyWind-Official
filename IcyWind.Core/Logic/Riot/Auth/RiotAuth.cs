@@ -285,6 +285,8 @@ namespace IcyWind.Core.Logic.Riot.Auth
                     }
 
                     var crypto = AES.EncryptBase64(StaticVars.Password, JsonConvert.SerializeObject(acc));
+
+                    /*
                     if (StaticVars.LoginCred.AccountData.All(x => x.CryptString != crypto))
                     {
                         StaticVars.LoginCred.AccountData.Add(new IcyWindRiotAccountCrypted
@@ -311,6 +313,8 @@ namespace IcyWind.Core.Logic.Riot.Auth
                         return;
                     }
                     var output = await AccountManager.UpdateAccountInfo(StaticVars.LoginCred);
+
+                    //*/
                 }
             }
         }

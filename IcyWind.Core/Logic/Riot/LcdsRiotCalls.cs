@@ -10,13 +10,19 @@ namespace IcyWind.Core.Logic.Riot
 {
     public class LcdsRiotCalls
     {
+        private RiotCalls RiotCalls { get; }
+        public LcdsRiotCalls(RiotCalls calls)
+        {
+            RiotCalls = calls;
+        }
+
         internal Task DoLcdsProxyCall(string method, string service, params string[] args)
         {
             var guid = Guid.NewGuid();
             return RiotCalls.InvokeAsync<object>("lcdsServiceProxy", "call", guid.ToString("D"), method, service, args);
         }
 
-        internal Task<LcdsServiceProxyResponse> DoLcdsProxyCallWithResponse(string method, string service,
+        private Task<LcdsServiceProxyResponse> DoLcdsProxyCallWithResponse(string method, string service,
             string args)
         {
             var guid = Guid.NewGuid();
@@ -46,7 +52,7 @@ namespace IcyWind.Core.Logic.Riot
             return t;
         }
 
-        internal Task<LcdsServiceProxyResponse[]> WithMoreThanOneResponce(string method, string service, int responces,
+        private Task<LcdsServiceProxyResponse[]> WithMoreThanOneResponce(string method, string service, int responces,
             string args)
         {
             var result = new List<LcdsServiceProxyResponse>();
@@ -76,12 +82,6 @@ namespace IcyWind.Core.Logic.Riot
             });
             t.Start();
             return t;
-        }
-
-        private RiotCalls RiotCalls { get; }
-        public LcdsRiotCalls(RiotCalls calls)
-        {
-            RiotCalls = calls;
         }
     }
 }
