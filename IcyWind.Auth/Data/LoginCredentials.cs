@@ -7,21 +7,22 @@ using Newtonsoft.Json;
 
 namespace IcyWind.Auth.Data
 {
+    /// <summary>
+    /// Represents a user's login Credentials
+    /// </summary>
     public class LoginCredentials
     {
+        /// <summary>
+        /// The user's username
+        /// </summary>
         [JsonProperty("user")]
         public string Username { get; set; }
 
+        /// <summary>
+        /// The user's password for transmission (Hashed)
+        /// </summary>
         [JsonProperty("pass")]
         public string PasswordHash { get; set; }
-
-        [JsonProperty("data")]
-        public string Data { get; internal set; }
-
-        [JsonIgnore]
-        public List<IcyWindRiotAccountCrypted> AccountData { get; set; }
-
-
 
         [JsonIgnore]
         public string Password
