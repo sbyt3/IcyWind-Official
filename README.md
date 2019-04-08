@@ -1,5 +1,5 @@
 # IcyWind
-Current Status: FUCK
+Current Status: Is rito going though a war? Their code changes so much and is so inconsistant it feels like it
 
 Join the official discord: https://discord.gg/veYtxju
 
