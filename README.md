@@ -29,7 +29,7 @@ Do not advertise IcyWind
 
 IcyWind's Icon is not attached in this project, but it will be in the compiled version due to licencing of the icon
 
-This software is not to be used in Australia
+This software is not to be used in Australia. There will be no backdoor access to decrypting user data. 
 
 # Questions you may have
 ### I wanna help out. How can I help?
@@ -39,10 +39,11 @@ I'm paying almost $100 now as services are being added for release. This include
 
 These costs can change, as all of the webservers are auto-scaling to avoid issues seen on other small league of legends projects
 
-### I want the source code now. How can I get it?
-The source code will be made available at a different date. For now (during the open beta) the project will remain closed source, because there will be massive changes that may still occour and new features will be made available.
+### Lost Password, how do I recover my data?
+IcyWind heavily encrypts user data (AES-256) which is basically impossible to crack. To reset your IcyWind password, email us from the email you created and we will help you out. Please note, that all accounts stored will be wiped. We can give simple information about the accounts stored (Summoner Name) but that is about it.
 
-When it comes to the date that I feel I have everything that rito gems has and more, you will be able to see the source code for this project. If you are worried about your account information, I will be publishing another program completly opensource at launch that will allow you to see how your account data is kept safe. In addition, feel free to proxy the entire connection and look at all the connections that IcyWind makes.
+### I want the source code now. How can I get it?
+Ur lookin at it u goof
 
 ### Why should I pay the montly subscription?
 It helps to support the project, and allows you to add as many accounts as you want. In the future, there will also be a remote connection feature only for those paying. This will allow you to connect to our website and queue up, accept, and pick champs, without needing to run to the computer (IcyWind must be running on your desktop, and it will launch the game on your desktop)
@@ -55,8 +56,10 @@ Those who are priority, will also recieve better support, and will be able to do
 
 Finally, all of the subscribers will get access to ALL plugins (some plugins must be paid for), more game data, and can also enable RUI (but why would you?).
 
+You can add as many accounts as you want locally.
+
 ### When will a compiled version come out and can I get it earlier?
-It will come out someday maybe and the source code will be released on the same date. You can get bother earlier by signing up for the early access program.
+Soon(tm)
 
 ### What desktop OS do you use? 
 Windows and macOS. That's why there is planned support for both.
@@ -88,7 +91,9 @@ You can add as many local accounts as you want (these will be deleted after the 
 Tired of elo boosters spamming your account? I am, and by default these messages are blocked
 
 ### RUI
-You have no idea what this is.
+Want to be laid back, old fasions, lame, and boring? Use RitoUI to make client performance decrease and be dissapointed because it looks bad. Like really bad.
+
+Soon(tm)
 
 ### Multi Language Support
 Planned feature. All I need is people to help with translations. 
@@ -127,7 +132,7 @@ Sorry nothing here
 
 # Planned OS support
 ## Tested working
-- [x] Windows 10
+- [ ] Windows 10
 
 ## Planned
 - [ ] macOS
@@ -138,7 +143,8 @@ Sorry nothing here
 |:------------------------------:|:------------------------------------:|
 | IcyWind.Languages              | GNU Affero General Public License    |
 | IcyWind.Mobile                 | GNU GENERAL PUBLIC LICENSE           |
-| IcyWind.*                      | Private License                      |
+| IcyWind.Chat                   | GNU Affero General Public License    |
+| IcyWind.*                      | GNU Affero General Public License    |
 
 * This license applies to all IcyWind Components unless otherwise noted
 
@@ -180,11 +186,7 @@ Riot Games does not endorse or sponsor this project.
  
  # Important Dates
  ##### Note these are not finalized dates. They are plans.
-August 13 2018 (closed beta)
-xD missed like MISSED this
-Let me try Sept 1st
-
-September 13 2018 (open beta)
+Sept 13 2019
 
 # Riot Contact
 Riot can contact me by creating an issue or emailing me if they have any concerns about the project.
