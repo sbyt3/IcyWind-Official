@@ -7,6 +7,10 @@ Join the official discord: https://discord.gg/veYtxju
 
 IcyWind Lite is a "brower based" league of legends client, taking the load off of your computer.
 
+You will need to have league up to date, and will need our helper program (IcyWindLite Launch Assistant).
+
+This program is not activly running, but should be run by your browser, which will then start the game. You need this program or can install a .bat file to launch the game but you will need to install it and run it every time.
+
 #### Warning: If you forget your password, all saved accounts will be removed. There is no possible way to recover account passwords and the leauge of legends account credentials that are stored on the server. You should also create a strong UNIQUE password for IcyWind (Use a password manager) as IcyWind acts like a password manager
 
 #### Warning: MultiUserAccount support is in development still. Currently, the way IcyWind is setup, may result in slightly higher latancy as it makes a connection per account. This will not impact those with around ~5 accounts, but those with more than 20 may experience issues.
